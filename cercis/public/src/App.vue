@@ -179,7 +179,7 @@
     methods: {
       getPoodle: function () {
         this.loading = true
-        var url = SERVER_CONFIGURATION.endpoints.poodle()
+        var url = SERVER_CONFIGURATION.endpoints.poodle() + 'crystal-creeks-conspiracy-of-kings-bcat-star-cgca/'
         return axios.get(url).then((response) => {
           this.poodle = response.data || []
           this.loading = false
@@ -189,7 +189,7 @@
       },
       getImages: function () {
         this.loading = true
-        var url = SERVER_CONFIGURATION.endpoints.image()
+        var url = SERVER_CONFIGURATION.endpoints.image() + '?poodle=crystal-creeks-conspiracy-of-kings-bcat-star-cgca/'
         return axios.get(url).then((response) => {
           this.images = response.data.results || []
           this.loadng = false
