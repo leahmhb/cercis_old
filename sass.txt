@@ -1,0 +1,2 @@
+sass --style=compressed cercis/static/scss/custom-bootstrap/bootstrap.scss cercis/static/css/custom-bootstrap.min.css
+sass --style=compressed cercis/static/scss/custom-bootstrap-vue/index.scss cercis/static/css/custom-bootstrap-vue.min.css

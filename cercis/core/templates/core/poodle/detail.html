@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% load static %}
+{% block after_css %}
+{% endblock after_css%}
+{% block title %}Poodle{% endblock %}
+
+{% block content %}
+
+<div id="detail" v-cloak v-if="adminApproved">
+  <div v-if="loading" class="d-flex flex-row justify-content-center align-items-center">
+    <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
+    <small class="center-block">
+      Loading...
+    </small>
+  </div>
+
+  <h1 class="page-header d-flex flex-row justify-content-between align-items-center">
+    <div>{$ poodle.name_registered $} <span v-if="poodle.name_call">| <span class="text-condensed">{$ poodle.name_call
+          $}</span></span>
+    </div>
+  </h1>
+
+  <section id="info-card">
+    <b-card no-body header-tag="header" border-variant="coffee" header-bg-variant="coffee"
+      header-text-variant="white">
+      <b-tabs card lazy>
+        <b-tab title="Basic" active>
+          {% include 'core/poodle/basic.html' %}
+        </b-tab>
+        <b-tab title="Registration">
+          {% include 'core/poodle/registration.html' %}
+        </b-tab>
+        <b-tab title="Health">
+          {% include 'core/poodle/health.html' %}
+        </b-tab>
+        <b-tab title="Comments">
+          {% include 'core/poodle/comments.html' %}
+        </b-tab>
+      </b-tabs>
+    </b-card>
+  </section>
+
+  <section id="related-card">
+    <b-card no-body header-tag="header" border-variant="coffee" header-bg-variant="coffee"
+      header-text-variant="white">
+      <b-tabs card lazy>
+        <b-tab title="Pedigree" active>
+          {% include 'core/poodle/pedigree-3.html' %}
+        </b-tab>
+
+        <b-tab title="Offspring" class="" v-if="poodle.offspring && poodle.offspring.length > 0">
+          <b-list-group flush>
+            <poodle-list-item v-for="p in poodle.offspring" v-bind:key="p.id" :poodle="p" type="offspring">
+            </poodle-list-item>
+          </b-list-group>
+        </b-tab>
+        <b-tab title="Siblings">
+
+          <b-tabs pills card vertical end id="sibling-sub-tabs">
+            <b-tab title="Full" v-if="poodle.siblings_full && poodle.siblings_full.length > 0">
+              <b-list-group flush>
+                <poodle-list-item v-for="p in poodle.siblings_full" v-bind:key="p.id" :poodle="p" type="full">
+                </poodle-list-item>
+              </b-list-group>
+            </b-tab>
+
+            <b-tab title="Dam's Side" v-if="poodle.siblings_damside && poodle.siblings_damside.length > 0">
+              <b-list-group flush>
+                <poodle-list-item v-for="p in poodle.siblings_damside" v-bind:key="p.id" :poodle="p" type="damside">
+                </poodle-list-item>
+              </b-list-group>
+            </b-tab>
+
+            <b-tab title="Sire's Side" v-if="poodle.siblings_sireside && poodle.siblings_sireside.length > 0">
+              <b-list-group flush>
+                <poodle-list-item v-for="p in poodle.siblings_sireside" v-bind:key="p.id" :poodle="p" type="sireside">
+                </poodle-list-item>
+              </b-list-group>
+            </b-tab>
+          </b-tabs>
+
+
+
+
+
+        </b-tab>
+      </b-tabs>
+    </b-card>
+  </section>
+
+  <section id="image-card">
+    <b-card header-tag="header" border-variant="coffee" header-bg-variant="coffee" header-text-variant="white">
+      <template v-slot:header>
+        <h4 class="mb-0 d-flex flex-row justify-content-between align-items-center">
+          Images
+          {% if perms.poodles.add_image %}
+          <b-button variant="success" size="sm" @click="showImageForm=true">
+            <i class="fas fa-file-image"></i> Add</b-button>
+          {% endif %}
+        </h4>
+      </template>
+
+      <article>
+        <b-carousel v-if="images.length > 0" id="carousel" v-model="slide" :interval="9000" controls indicators
+          background="#ababab" img-width="600" @sliding-start="onSlideStart" @sliding-end="onSlideEnd">
+          <b-carousel-slide v-for="img in images" v-bind:key="img.id" :caption="img.caption" :text="img.comments"
+            :img-src="img.path" :img-alt="img.caption"></b-carousel-slide>
+        </b-carousel>
+      </article>
+
+      <form v-if="showImageForm" id="image-form" method="post" enctype="multipart/form-data" novalidate>
+
+        <div class="alert alert-danger" role="alert" v-if="errors.length > 0">
+          <button type="button" class="close float-right" data-dismiss="alert" aria-label="Close"
+            @click="closeErrorAlert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <p v-for="m in errors">{$ m $}</p>
+        </div>
+
+        <div class="d-block">
+          <input type="hidden" v-model="poodle.id" required>
+
+          <input type="file" ref='image-path' accept=",image/*">
+
+          <b-form-group id="caption-fieldset" label="Caption" label-for="caption" label-size="sm">
+            <b-form-input id="caption" v-model="image.caption" size="sm" required max_length="255" trim>
+            </b-form-input>
+          </b-form-group>
+
+          <b-form-group id="comments-fieldset" label="Comments" label-for="comments" label-size="sm">
+            <b-form-textarea id="comments" v-model="image.comments" placeholder="Optional extended comments"
+              size="small" rows="3" max-rows="6"></b-form-textarea>
+          </b-form-group>
+        </div>
+        <b-button class="mt-3 mr-auto" variant="default" @click="showImageForm=false">Close</b-button>
+        <b-button class="mt-3 ml-auto" variant="info" @click="resetImageForm()">Reset</b-button>
+        <b-button class="mt-3 float-right" variant="success" @click="submitImage()">Save</b-button>
+      </form>
+    </b-card>
+
+  </section>
+  <small>
+    Created {$ poodle.created_at $}
+    <span class="float-right">Last Updated {$ poodle.updated_at $}</span>
+  </small>
+  {% include 'core/poodle/modals.html' %}
+</div>
+{% endblock content %}
+
+{% block after_javascript %}
+
+
+<script>
+  var CONFIG = {
+    poodle_list_url: '{% url "api:poodle-list" %}',
+    poodle_filter_url: '{% url "api:filter-list" %}',
+    poodle_detail_url: '{% url "api:poodle-detail" slug %}',
+    color_list_url: '{% url "api:color-list" %}',
+    country_list_url: '{% url "api:country-list" %}',
+    person_list_url: '{% url "api:person-list" %}',
+    media_url: "{{ MEDIA_URL }}",
+    user: '{{ request.user }}',
+    poodle_image_list_url: "{% url 'api:image-list' %}?poodle={{ slug }}",
+    image_list_url: "{% url 'api:image-list' %}"
+  }
+  axios.defaults.headers.common['X-XSRF-cercis-TOKEN'] = '{{ csrf_token }}';
+</script>
+<script src="https://unpkg.com/vue-image-upload-resize"></script>
+<script src="{% static 'core/js/poodles-detail.js' %}"></script>
+<script src="{% static 'core/js/singleDog.js' %}"></script>
+<script type="text/x-template" id="single-dog-template">
+  <a :href="'/poodle/detail/' + poodle.slug" class="d-block">
+                   <span class="d-block float-right">
+                     <i :class="['d-inline', 'float-right', 'fas', iconClass]" :title = "poodle.sex"></i>     
+                        <span v-if="poodle.origin_country.code != 'UNK'" class="badge badge-light">{$ poodle.origin_country.code $}</span>
+                        <span v-if="poodle.color.text" class="badge badge-light">{$ poodle.color.text $}</span>
+                    </span>
+                    {$ poodle.name_registered $}                    
+                </a>
+</script>
+<script src="{% static 'core/js/poodleListItem.js' %}"></script>
+<script type="text/x-template" id="poodle-list-item-template">
+  <b-list-group-item :href="poodle.url"    
+                class="flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between align-items-center">
+                    <h4 class="mb-1 text-condensed">
+                        {$ poodle.name_registered $}
+                        <small v-if="poodle.name_call">"{$ poodle.name_call $}"</small>
+                    </h4>          
+                    <div>        
+                   <span v-if="poodle.color_text" class="badge badge-light">{$ poodle.color_text $}</span>
+                   <i :class="['d-inline', 'float-right', 'fas', iconClass]" :title="poodle.sex"></i>    
+                   </div>             
+                </div>
+                <div class="d-flex flex-row justify-content-between align-items-center">
+                    <span v-if="displaySire" class="text-thin text-condensed">{$ poodle.sire $}</span>
+                    <span>{$ displayX $}</span> 
+                    <span v-if="displayDam" class="text-thin text-condensed">{$ poodle.dam $}</span>
+                </div>
+            </b-list-group-item>
+</script>
+{% endblock after_javascript %}

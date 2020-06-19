@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Poodles{% endblock %}
+
+{% block after_css %}
+
+{% endblock after_css%}
+{% block content %}
+
+<h1 class="page-header d-flex flex-row justify-content-between align-items-center">
+  <div>Poodles | <small class="text-condensed"> Browse, filter, and sort </small>
+  </div>
+  {% if perms.poodles.add_poodle %}
+  <b-button variant="success" size="sm">
+    <i class="fas fa-plus"></i> Create
+  </b-button>
+  {% endif %}
+</h1>
+
+<div id="list" v-cloak>
+
+  <b-card no-body class="mt-1 mb-1 d-block">
+    <b-card-header class="p-1" role="tab">
+      <b-button block v-b-toggle.card-1 variant="secondary">Show/Hide Filters</b-button>
+    </b-card-header>
+    <b-collapse id="card-1" visible accordion="filter" role="tabpanel">
+      <form method="get" @submit.prevent="getItems">
+        <b-card-body>
+          <b-form-row>
+            <b-col>
+              <b-form-group id="name-call-grp" label="Call Name" label-for="name-call">
+                <b-form-input id="name-call" v-model="filters.name_call" type="text"></b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group id="name-registered-grp" label="Registered Name" label-for="name-registered">
+                <b-form-input id="name-registered" v-model="filters.name_registered" type="text"></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-row>
+            <b-col>
+              <b-form-group id="sex-grp" label="Sex" label-for="sex">
+                <select class="form-control js-choice" name="sex" id="sex" v-model="filters.sex"></select>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group id="color-grp" label="Color" label-for="color">
+                <select class="form-control js-choice" name="color" id="color" v-model="filters.color"></select>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group id="variety-grp" label="Variety" label-for="variety">
+                <select class="form-control js-choice" name="variety" id="variety" v-model="filters.variety"></select>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group id="origin-country-grp" label="Origin" label-for="origin-country">
+                <b-form-input id="origin-country" v-model="filters.origin_country" type="text"></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+          <b-form-row>
+            <b-col>
+              <b-form-group id="owner-grp" label="Owner(s)" label-for="owner">
+                <b-form-input id="owners" v-model="filters.owners" type="text"></b-form-input>
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group id="breeder-grp" label="Breeder(s)" label-for="breeder">
+                <b-form-input id="breeders" v-model="filters.breeders" type="text"></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-form-row>
+
+        </b-card-body>
+        <b-card-footer class="d-flex flex-row justify-content-between align-items-center small bg-white">
+
+          <button class="btn btn-sm btn-outline-secondary" type="reset">
+            <i class="fas fa-eraser"></i>
+            Reset
+          </button>
+          <button class="btn btn-sm btn-info" type="submit">
+            <i class="fas fa-search"></i>
+            Apply
+          </button>
+
+        </b-card-footer>
+      </form>
+    </b-collapse>
+  </b-card>
+
+  <div v-if="loading" class="d-flex flex-row justify-content-center align-items-center m-5">
+    <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
+    <small class="center-block">
+      Loading...
+    </small>
+  </div>
+
+  <b-card no-body class="mt-1 mb-1 d-block" v-if="items.length > 0">
+    <b-table id="table" ref="table" no-provider-sorting small striped show-empty stacked="md" :items="items"
+      :fields="fields" empty-text="Use filters to find poodles" :sort-by.sync="sort.sortBy"
+      :sort-desc.sync="sort.sortDesc" thead-class="text-center text-blackcoral" tbody-tr-class="align-middle"
+      tbody-td-class="nowrap">
+      <template v-slot:cell()="data">
+        <span v-if="data.value == ''">-</span>
+        <span v-else>{$ data.value $}</span>
+      </template>
+
+      <template v-slot:cell(name_registered)="data">
+        <a :title="data.value" :href="'/poodle/detail/' + data.item.slug">{$
+          data.value $}</abbr>
+      </template>
+
+      <template v-slot:cell(owners)="data">
+        <span v-for="p in data.value">{$ p.full_name $}</span>
+      </template>
+
+      <template v-slot:cell(breeders)="data">
+        <span v-for="p in data.value">{$ p.full_name $}</span>
+      </template>
+
+      <template v-slot:cell(sex)="data">
+        <span v-if="data.value == 'F'">
+          <i class="fas fa-venus text-female" :title="data.value"></i>
+        </span>
+        <span v-else-if="data.value == 'M'">
+          <i class="fas fa-mars text-male" :title="data.value"></i>
+        </span>
+        <span v-else>
+          <i class="fas fa-genderless text-light" :title="data.value"></i>
+        </span>
+      </template>
+      <template v-slot:cell(origin_country)="data">
+        <abbr :title="data.item.origin_country_text" :data-id="data.item.origin_country">{$
+          data.item.origin_country_code $}</abbr>
+      </template>
+
+      <template v-slot:cell(color)="data">
+        <span :data-id="data.item.color">{$ data.item.color_text $}</span>
+      </template>
+
+    </b-table>
+    <b-card-footer class="d-flex flex-row justify-content-between align-items-center small bg-white">
+      <b-button variant="info" :href="pagination.previous" size="sm" :disabled="!pagination.previous">
+        <i class="fas fa-arrow-left"></i> Previous
+      </b-button>
+      <b-button variant="info" :href="pagination.next" size="sm" :disabled="!pagination.next">
+        Next
+        <i class="fas fa-arrow-right"></i>
+      </b-button>
+    </b-card-footer>
+  </b-card>
+
+</div>
+{% endblock content %}
+
+{% block after_javascript %}
+<script>
+  var CONFIG = {
+    poodle_filter_url: '{% url "api:filter-list" %}',
+    color_list_url: '{% url "api:color-list" %}',
+    country_list_url: '{% url "api:country-list" %}',
+    person_list_url: '{% url "api:person-list" %}',
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+<script src="{% static 'core/js/poodle-selects.js' %}"></script>
+<script src="{% static 'core/js/poodles-all.js' %}"></script>
+{% endblock after_javascript %}

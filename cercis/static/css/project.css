@@ -1,0 +1,46 @@
+div.socialaccount_ballot > ul.socialaccount_providers{
+     list-style: none;
+     padding-left: 0
+ }
+ 
+ a.google-btn {
+   width: 191px;
+   height: 46px;
+   display: inline-block;
+   background: url('../images/social/google/btn_google_signin_light_normal_web.png') transparent no-repeat;
+ }
+
+ a.google-btn:focus {
+   background: url('../images/social/google/btn_google_signin_light_focus_web.png') transparent no-repeat;
+ }
+
+ a.google-btn:active {
+   background: url('../images/social/google/btn_google_signin_light_pressed_web.png') transparent no-repeat;
+ }
+
+div.choices div.choices__inner {
+  background: #fff;
+  border-radius: 0;
+  padding: 0.375rem 0.75rem;
+  min-height: calc(1.571em + 2px + 0.75rem)
+}
+
+.form-row {
+  margin-top: 0.5rem;
+}
+div.choices div.choices__inner div.choices__list.choices__list--single {
+  padding: 0;
+}
+
+div.v-select.vs--single.vs--searchable div.vs__dropdown-toggle {
+  border-radius: 0;
+}
+
+div.v-select.form-control.form-control-sm {
+  font-size: 0.875rem;
+  line-height: 1.571;
+}
+
+#sibling-sub-tabs__BV_tab_controls_ {
+  background-color: #fff;
+}

@@ -1,0 +1,29 @@
+{% extends "users/base.html" %}
+{% load static %}
+
+{% block title %}User: {{ object.username }}{% endblock %}
+
+{% block header %}
+ Profile
+{% endblock %}
+
+{% block inner %}
+<h1 class="page-header">
+ {{ object.username }}
+  {% if object.name %}
+  {{ object.name }}
+  {% endif %}
+</h1>
+  {% if object == request.user %}
+  <!-- Action buttons -->
+  <div class="row">
+    <div class="col-sm-12">
+      <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
+      <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
+      <!-- Your Stuff: Custom user template urls -->
+    </div>
+  </div>
+  <!-- End Action buttons -->
+  {% endif %}
+</div>
+{% endblock  %}

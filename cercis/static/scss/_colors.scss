@@ -1,0 +1,42 @@
+$white:    #fff !default;
+$gunmetal: #2D3142;
+$cultured: #f6f6f6;
+$silversand: #BFC0C0;
+$onyx: #393A3A;
+$blackcoral: #4F5D75;
+$burntumber: #833422;
+$kelp: #003b32;
+
+$oldrose: #c18689ff;
+$coffee: #775a44ff;
+$darkpurple: #230c33ff;
+$bistre: #251808ff;
+$sapgreen: #4a8038ff;
+$azure: #4783ebff;
+$camel: #c48c4bff;
+$sweetbrown: #9f3a35ff;
+
+$male: $blackcoral;
+$female: $sweetbrown;
+
+
+$poodle-colors: (
+    "male":         $male,
+    "female":       $female,
+    "white":        $white,
+    "gunmetal":     $gunmetal,
+    "cultured":     $cultured,
+    "silversand":   $silversand,
+    "onyx":         $onyx,
+    "blackcoral":   $blackcoral,
+    "burntumber":   $burntumber,
+    "kelp":         $kelp,
+    "oldrose":      $oldrose,
+    "coffee":       $coffee,
+    "darkpurple":   $darkpurple,
+    "bistre":       $bistre,
+    "sapgreen":     $sapgreen,
+    "azure":        $azure,
+    "camel":        $camel,
+    "sweetbrown":   $sweetbrown,
+) !default;

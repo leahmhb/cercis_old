@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{% block head_title %}{% endblock head_title %}{% endblock title %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="card card-dark">
+      <div class="card-header">
+        Account | <span class="text-condensed">{% block header %}{% endblock %}</span>
+      </div>
+      <div class="card-body">
+        {% block inner %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">In Development</h1>
+  <p class="lead">{% lorem 10 w random %}</p>
+  <hr class="my-4">
+  <a href="{% url 'core:poodle-detail' 'crystal-creeks-conspiracy-of-kings-bcat-star-cgca' %}">Basil</a>
+    <a href="{% url 'core:poodle-detail' 'theory-thick-as-thieves' %}">Irene</a>
+  {% lorem 1 p random %}
+</div>
+{% endblock content %}

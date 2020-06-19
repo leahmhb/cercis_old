@@ -1,0 +1,36 @@
+//Bootstrap variable overrides
+$body-color:                #444444 !default;
+$body-bg:                   $cultured !default;
+
+$enable-rounded:            false !default;
+
+$font-family-sans-serif:      'Open Sans Regular', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+
+$font-family-base:            $font-family-sans-serif !default;
+
+$font-size-root:              14px !default;
+$font-size-base:              1rem !default;
+$line-height-base:            1.571 !default;
+
+$link-color:                  $kelp !default;
+
+$h1-font-size:                2.571rem !default;
+$h2-font-size:                2.142rem !default;
+$h3-font-size:                1.714rem !default;
+$h4-font-size:                1.285rem !default;
+$h5-font-size:                1rem !default;
+$h6-font-size:                0.857rem !default;
+
+$navbar-toggler-border-radius:      0.25rem !default;
+$navbar-padding-y:            0.5rem;
+$navbar-padding-x:            1rem;
+
+//add to colors
+$colors: map-merge($poodle-colors, $colors);
+
+//add to theme-colors
+$theme-colors: map-merge($poodle-colors, $theme-colors);
+$nav-tabs-link-active-color: $darkpurple;
+
+$nav-pills-link-active-color: $cultured;
+$nav-pills-link-active-bg: $darkpurple;

@@ -1,0 +1,58 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+{% block header %}{% trans "Sign In" %}{% endblock %}
+{% block inner %}
+
+
+
+{% get_providers as socialaccount_providers %}
+
+{% if socialaccount_providers %}
+<p>{% blocktrans with site.name as site_name %}Please login in with one
+  of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+  for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+
+<div class="socialaccount_ballot">
+  <ul class="socialaccount_providers">
+    <li>
+      <a class="google-btn"
+        href="{% provider_login_url "google" openid="https://www.google.com/accounts/o8/id" next="/home" process="login" %}">
+        <img src="{% static 'images/social/google/btn_google_signin_light_normal_web.png' %}">
+      </a>
+    </li>
+  </ul>
+</div>
+
+{% else %}
+<p>{% blocktrans %}If you have not created an account yet, then please
+  <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+{% endif %}
+
+<p>
+  Integration with Facebook login is delayed due to the following:
+  <a href="https://developers.facebook.com/blog/post/2020/03/24/pausing-individual-verification/">
+    Pausing Individual Verification</a>
+</p>
+
+<hr>
+
+<p>Signing up with a social account is much preferred, but you may use a site-speciifc login below.</p>
+
+<form class="login" method="POST" action="{% url 'account_login' %}">
+  {% csrf_token %}
+  {{ form|crispy }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <div class="btn-group mt-2 float-right">
+    <a class="btn btn-secondary secondaryAction"
+      href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+    <button class="primaryAction btn btn-success" type="submit">{% trans "Sign In" %}</button>
+  </div>
+</form>
+
+{% endblock %}

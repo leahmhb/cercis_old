@@ -1,0 +1,54 @@
+#header {
+    background: #2D3142;
+    color: #fff;
+}
+
+#branding h1 {
+    color: #fff
+}
+
+#content-related {
+    background: #f6f6f6;
+}
+
+div.breadcrumbs {
+    background: #BFC0C0;
+    color: #666
+}
+
+div.breadcrumbs a {
+    color: #393A3A
+}
+
+.module caption,
+.inline-group h2 {
+    background: #4F5D75;
+    color: #fff
+}
+
+.module > table > tbody> tr > th a {
+    color: #833422;
+}
+
+.module > table > tbody > tr > td > a,
+.results > table.result_list > tbody > tr > td > a,
+.results > table.result_list > tbody > tr > th > a {
+    color: #393A3A
+}
+
+div.submit-row {
+    background: #f6f6f6;
+}
+
+.submit-row > input.default {
+    background: #28a745
+}
+
+.submit-row > input {
+    background: #6c757d
+}
+
+.submit-row > .deletelink-box > a.deletelink {
+    background: rgb(220, 53, 69);
+
+}

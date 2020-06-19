@@ -1,0 +1,47 @@
+{% extends "account/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load account socialaccount %}
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block header %}{% trans "Signup" %}{% endblock %}
+{% block inner %}
+
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+{% get_providers as socialaccount_providers %}
+{% if socialaccount_providers %}
+<p>{% blocktrans with site.name as site_name %}Please sign up with one
+  of your existing third party accounts.{% endblocktrans %}</p>
+
+<div class="socialaccount_ballot">
+  <ul class="socialaccount_providers">
+    <a class="google-btn"
+      href="{% provider_login_url "google" openid="https://www.google.com/accounts/o8/id" next="/home" process="connect" %}">
+      <img src="{% static 'images/social/google/btn_google_signin_light_normal_web.png' %}">
+    </a>
+  </ul>
+</div>
+{% endif %}
+
+<p>
+  Integration with Facebook login is delayed due to the following:
+  <a href="https://developers.facebook.com/blog/post/2020/03/24/pausing-individual-verification/">
+    Pausing Individual Verification</a>
+</p>
+
+<hr>
+
+<p>Signing up with a social account is much preferred,
+  but you may use a site-specifc account by signing up using the form below.</p>
+
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+  {{ form|crispy }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button class="btn btn-success float-right mt-4" type="submit">{% trans "Sign Up" %} &raquo;</button>
+</form>
+
+{% endblock %}

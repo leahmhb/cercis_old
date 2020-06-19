@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block after_css %}
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
+{% endblock after_css%}
+{% block title %}Poodle{% endblock %}
+
+{% block content %}
+
+<div id="app" v-cloak v-if="adminApproved">
+
+  <input type="hidden" name="server-settings-BASEURL" value="/">
+  <input type="hidden" name="server-settings-COLORENDPOINT" value="{% url 'api:color-list' %}">
+  <input type="hidden" name="server-settings-POODLEENDPOINT" value="{% url "api:poodle-list" %}">
+  <input type="hidden" name="server-settings-POODLEENDPOINT" value="{% url "api:filter-list" %}">
+  <input type="hidden" name="server-settings-COUNTRYENDPOINT" value="{% url "api:country-list" %}">
+  <input type="hidden" name="server-settings-PERSONENDPOINT" value="{% url "api:person-list" %}">
+  <input type="hidden" name="server-settings-MEDIAENDPOINT" value="{{ MEDIA_URL }}">
+  <input type="hidden" name="server-settings-IMAGEENDPOINT" value="{% url 'api:image-list' %}">
+  
+</div>
+{% endblock content %}
+
+{% block after_javascript %}
+
+
+<script>
+  axios.defaults.headers.common['X-XSRF-cercis-TOKEN'] = '{{ csrf_token }}';
+</script>
+<script src="{% static 'js/vendor.js' %}"></script>
+<script src="{% static 'js/app.js' %}"></script>
+{% endblock after_javascript %}
