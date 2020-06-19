@@ -53,6 +53,8 @@
                     return 'x Dam'
                 } else if (!this.displaySire) {
                     return 'Sire x'
+                } else {
+                    return ''
                 }
             }
         },

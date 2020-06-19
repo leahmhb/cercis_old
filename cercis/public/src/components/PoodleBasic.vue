@@ -221,7 +221,7 @@
             'showBasicForm'
         ],
         components: {
-            “v-select”: VueSelect
+            'v-select': VueSelect
         },
         computed: {
             iconClass: function () {
