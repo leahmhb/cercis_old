@@ -1,0 +1,99 @@
+[v-cloak] {
+  display: none !important;
+}
+
+.collapsed>.when-opened,
+:not(.collapsed)>.when-closed {
+  display: none;
+}
+
+/* This is a fix for the bootstrap4 alpha release */
+@media (max-width: 47.9em) {
+  .navbar-nav .nav-item {
+    float: none;
+    width: 100%;
+    display: inline-block;
+  }
+
+  .navbar-nav .nav-item+.nav-item {
+    margin-left: 0;
+  }
+
+  .nav.navbar-nav.pull-xs-right {
+    float: none !important;
+  }
+}
+
+#maincontent {
+  margin: 2rem auto;
+}
+
+/* Display django-debug-toolbar.
+See https://github.com/django-debug-toolbar/django-debug-toolbar/issues/742
+and https://github.com/pydanny/cookiecutter-django/issues/317
+*/
+[hidden][style="display: block;"] {
+  display: block !important;
+}
+
+/*********** TEXT AND FONTS ***********/
+b, strong, .font-weight-bold {
+font-family: $font-family-base-bold;
+}
+i, em, .font-italic {
+font-family: $font-family-base-italic;
+}
+.text-thin {
+  font-family: $font-family-base-light;
+}
+
+.text-script {
+font-family: $font-family-script;
+}
+
+.help-text {
+  font-size: 0.786rem;
+  color: $blackcoral;
+  line-height: $line-height-base;
+}
+
+.google-font {
+  font-family: $font-family-google;
+}
+/*********** COMPONENTS ***********/
+
+.card-subtitle,
+.card-title,
+.card-header,
+.modal-title {
+font-family: $font-family-base-light;
+}
+
+/*********** PAGES ***********/
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-base-light;
+}
+
+h1, h1.page-header {
+  color: $bistre;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+h2 {
+  color: $coffee;
+}
+
+section {
+  margin: 2rem auto;
+}
+
+.section-header {
+  margin-top: 1rem;
+}
+
+#carousel {
+  text-shadow: 1px 1px 2px $onyx;
+}

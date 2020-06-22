@@ -1,0 +1,59 @@
+//fonts
+
+@font-face {
+  font-family: 'Raleway Light';
+  src: url('../fonts/Raleway/Raleway-Light.ttf') format("truetype"),
+    local('Raleway Light');
+  font-weight: lighter;
+}
+
+@font-face {
+  font-family: 'Raleway Bold';
+  src: url('../fonts/Raleway/Raleway-Bold.ttf') format("truetype"),
+    local('Raleway Bold');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Raleway Italic';
+  src: url('../fonts/Raleway/Raleway-Italic.ttf') format("truetype"),
+    local('Raleway Italic');
+  font-style: italic
+}
+
+@font-face {
+  font-family: 'Raleway Regular';
+  src: url('../fonts/Raleway/Raleway-Regular.ttf') format("truetype"),
+    local('Raleway Regular');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'DancingScript Regular';
+  src: url('../fonts/DancingScript/DancingScript-Regular.ttf') format("truetype"),
+    local('DancingScript Regular');
+  font-weight: normal;
+}
+
+
+@font-face {
+  font-family: 'Roboto Medium';
+  src: url('../fonts/Roboto-Medium.ttf') format("truetype"),
+    local('Roboto Medium');
+}
+
+//New variables
+$font-family-script: 'DancingScript Regular',
+cursive !default;
+
+$font-family-base: 'Raleway Regular',
+sans-serif !default;
+$font-family-base-bold: 'Raleway Bold',
+sans-serif !default;
+$font-family-base-italic: 'Raleway Italic',
+sans-serif !default;
+$font-family-base-light: 'Raleway Light',
+sans-serif !default;
+
+$font-family-google: 'Roboto Medium',
+serif !default;
