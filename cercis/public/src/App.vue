@@ -107,6 +107,7 @@
 
   export default {
     name: 'App',
+    delimiters: ['{$', '$}'],
     components: {
       PoodleListItem,
       PoodleBasic,
@@ -115,7 +116,6 @@
       PoodleComments,
       ThreeGenPedigree
     },
-    delimiters: ['{$', '$}'],
     data: function () {
       return {
         showImageForm: false,
