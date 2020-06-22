@@ -20,6 +20,13 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
         },
         image() {
             return "http://localhost:8000/api/image/";
+        },
+        perms() {
+            return {
+                'core': {
+                    'change_poodle': true
+                }
+            }
         }
 
 

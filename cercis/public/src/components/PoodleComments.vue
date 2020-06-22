@@ -1,10 +1,10 @@
   <template>
       <div id="comments">
           <article v-if=!showCommentsForm class="mt-2">
-              <p v-if="poodle.comments">{$ poodle.comments $}</p>
+              <p v-if="poodle.comments">{{ poodle.comments }}</p>
               <p v-else>None</p>
           </article>
-          <article v-if="showCommentsForm">
+          <article v-else>
               <form id="comments-form" ref="comments-form" method="post"
                   @submit.prevent="changePoodle('comments-form')">
                   <b-form-row>
@@ -16,11 +16,12 @@
                   </b-form-row>
               </form>
           </article>
-          {% if perms.core.change_poodle %}
-          <div class="mt-4 mb-0 d-flex flex-row justify-content-between align-items-end">
+
+          <div v-if="perms.core.change_poodle"
+              class="mt-4 mb-0 d-flex flex-row justify-content-between align-items-end">
               <b-button variant="outline-info" @click="showCommentsForm=!showCommentsForm">
                   <i v-if="showCommentsForm" class="fas fa-toggle-off"></i>
-                  <i v-if="!showCommentsForm" class="fas fa-toggle-on"></i> Update
+                  <i v-else class="fas fa-toggle-on"></i> Update
               </b-button>
               <b-btn-group v-if="showCommentsForm">
                   <b-button variant="outline-secondary" type="reset">
@@ -31,17 +32,23 @@
                   </b-button>
               </b-btn-group>
           </div>
-          {% endif %}
+
       </div>
   </template>
 
   <script>
+      import config from './../configuration.js'
+      let perms = config.endpoints.perms();
       export default {
           name: 'PoodleComments',
-          delimiters: ['{$', '$}'],
           props: [
               'poodle',
               'showCommentsForm'
           ],
+          data: function () {
+              return {
+                  perms: perms
+              }
+          }
       }
   </script>

@@ -1,5 +1,5 @@
 <template>
-  <div id="detail">
+  <div id="app">
     <div v-if="loading" class="d-flex flex-row justify-content-center align-items-center">
       <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
       <small class="center-block">
@@ -8,9 +8,9 @@
     </div>
 
     <h1 class="page-header d-flex flex-row justify-content-between align-items-center">
-      <div>{$ poodle.name_registered $} <span v-if="poodle.name_call">| <span class="text-condensed">{$
+      <div>{{ poodle.name_registered }} <span v-if="poodle.name_call">| <span class="text-condensed">{{
             poodle.name_call
-            $}</span></span>
+            }}</span></span>
       </div>
     </h1>
 
@@ -73,10 +73,6 @@
               </b-tab>
             </b-tabs>
 
-
-
-
-
           </b-tab>
         </b-tabs>
       </b-card>
@@ -84,8 +80,8 @@
 
 
     <small>
-      Created {$ poodle.created_at $}
-      <span class="float-right">Last Updated {$ poodle.updated_at $}</span>
+      Created {{ poodle.created_at }}
+      <span class="float-right">Last Updated {{ poodle.updated_at }}</span>
     </small>
 
   </div>
@@ -107,7 +103,6 @@
 
   export default {
     name: 'App',
-    delimiters: ['{$', '$}'],
     components: {
       PoodleListItem,
       PoodleBasic,

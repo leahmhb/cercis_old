@@ -3,15 +3,15 @@
         <article v-if=!showBasicForm>
             <h4 class="section-header text-center text-condensed mb-1">
                 <a v-if="poodle.sire" :href="poodle.sire.url">
-                    {$ poodle.sire.name_registered $}
+                    {{ poodle.sire.name_registered }}
                 </a>
                 x
                 <a v-if="poodle.dam" :href="poodle.dam.url">
-                    {$ poodle.dam.name_registered $}
+                    {{ poodle.dam.name_registered }}
                 </a>
             </h4>
             <h5 class="section-header text-center text-thin mb-2">
-                Origin Country {$ poodle.origin_country.text $}
+                Origin Country {{ poodle.origin_country.text }}
             </h5>
             <div class="row">
                 <div class="col">
@@ -19,23 +19,23 @@
                         <tbody>
                             <tr>
                                 <th>Color</th>
-                                <td>{$ poodle.color.text $}</td>
+                                <td>{{ poodle.color.text }}</td>
                             </tr>
                             <tr>
                                 <th>Honorifics</th>
-                                <td>{$ poodle.honorifics $}</td>
+                                <td>{{ poodle.honorifics }}</td>
                             </tr>
                             <tr>
                                 <th>Owners</th>
                                 <td>
                                     <span v-for="(p, i) in poodle.owners" v-bind:key="p.id">
-                                        {$ p.full_name $}<span v-if="i+1 < poodle.owners.length">, </span>
+                                        {{ p.full_name }}<span v-if="i+1 < poodle.owners.length">, </span>
                                     </span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>DOB</th>
-                                <td>{$ poodle.dob $}</td>
+                                <td>{{ poodle.dob }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -45,7 +45,7 @@
                         <tbody>
                             <tr>
                                 <th>Variety</th>
-                                <td>{$ displayVariety $}</td>
+                                <td>{{ displayVariety }}</td>
                             </tr>
                             <tr>
                                 <th>Sex</th>
@@ -57,20 +57,20 @@
                                 <th>Breeders</th>
                                 <td>
                                     <span v-for="(p, i) in poodle.breeders" v-bind:key="p.id">
-                                        {$ p.full_name $}<span v-if="i+1 < poodle.owners.length">, </span>
+                                        {{ p.full_name }}<span v-if="i+1 < poodle.owners.length">, </span>
                                     </span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>DOD</th>
-                                <td>{$ poodle.dod $} </td>
+                                <td>{{ poodle.dod }} </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </article>
-        <article v-if="showBasicForm">
+        <article v-else>
             <form id="basic-form" ref="basic-form" method="post" @submit.prevent="changePoodle('basic-form')">
                 <b-form-row>
                     <b-col cols="2">
@@ -94,7 +94,7 @@
                                 v-model="poodle.color">
                             </v-select>
                             <b-form-text v-if="poodle.color.text!=poodle.pd_color" class="help-text">
-                                Please select a color close to {$ poodle.pd_color $}
+                                Please select a color close to {{ poodle.pd_color }}
                             </b-form-text>
                         </b-form-group>
                     </b-col>
@@ -105,7 +105,7 @@
                                 v-model="poodle.variety">
                             </v-select>
                             <b-form-text v-if="poodle.variety!=poodle.pd_variety" class="help-text">
-                                Please select a variety close to {$ poodle.pd_variety $}
+                                Please select a variety close to {{ poodle.pd_variety }}
                             </b-form-text>
                         </b-form-group>
                     </b-col>
@@ -181,7 +181,7 @@
                             </b-form-input>
                         </b-form-group>
                     </b-col>
-                    <b-form-text v-if="poodle.dob_dod">Please select dates close to {$ poodle.dob_dod $} </b-form-text>
+                    <b-form-text v-if="poodle.dob_dod">Please select dates close to {{ poodle.dob_dod }} </b-form-text>
                     <b-col>
                         <b-form-group label="Died" label-for="dod">
                             <b-form-input type="text" id="dod" v-model="poodle.dod" trim placeholder="--/--/----">
@@ -194,10 +194,10 @@
 
         </article>
 
-        <div class="mt-4 mb-0 d-flex flex-row justify-content-between align-items-end">
+        <div v-if="perms.core.change_poodle" class="mt-4 mb-0 d-flex flex-row justify-content-between align-items-end">
             <b-button variant="outline-info" size="sm" @click="showBasicForm=!showBasicForm">
                 <i v-if="showBasicForm" class="fas fa-toggle-off"></i>
-                <i v-if="!showBasicForm" class="fas fa-toggle-on"></i> Update
+                <i v-else class="fas fa-toggle-on"></i> Update
             </b-button>
             <b-btn-group v-if="showBasicForm">
                 <b-button variant="outline-secondary" size="sm" type="reset">
@@ -212,10 +212,11 @@
 </template>
 
 <script>
-  import VueSelect from 'vue-select'
+    import VueSelect from 'vue-select'
+    import config from './../configuration.js'
+    let perms = config.endpoints.perms();
     export default {
         name: 'PoodleBasic',
-        delimiters: ['{$', '$}'],
         props: [
             'poodle',
             'showBasicForm'
@@ -248,6 +249,11 @@
                     return '';
                 }
             },
+        },
+        data: function () {
+            return {
+                perms: perms
+            }
         }
     }
 </script>

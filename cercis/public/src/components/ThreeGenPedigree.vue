@@ -3,7 +3,7 @@
         <b-container>
             <b-row class="d-flex align-items-center gen-1">
                 <b-col cols="3">
-                    {$ poodle.name_registered $}
+                    {{ poodle.name_registered }}
                 </b-col><!-- THIS poodle -->
                 <b-col>
                     <b-row class="d-flex align-items-center gen-2">
@@ -24,6 +24,7 @@
                                             <single-dog v-if="poodle.sire.sire.dam" :poodle="poodle.sire.sire.dam">
                                             </single-dog>
                                         </b-col>
+                                    </b-row>
                                 </b-col>
                             </b-row>
                             <hr>
@@ -97,7 +98,6 @@
     import SingleDog from './SingleDog'
     export default {
         name: 'ThreeGenPedigree',
-        delimiters: ['{$', '$}'],
         props: [
             'poodle',
         ],

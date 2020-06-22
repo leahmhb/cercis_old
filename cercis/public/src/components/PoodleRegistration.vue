@@ -7,15 +7,15 @@
         <tbody>
           <tr>
             <th>AKC</th>
-            <td>{$ poodle.akc $}</td>
+            <td>{{ poodle.akc }}</td>
           </tr>
           <tr>
             <th>CHIC</th>
-            <td>{$ poodle.chic $}</td>
+            <td>{{ poodle.chic }}</td>
           </tr>
           <tr>
             <th>AKC DNA</th>
-            <td>{$ poodle.akc_dna $}</td>
+            <td>{{ poodle.akc_dna }}</td>
           </tr>
         </tbody>
       </table>
@@ -25,22 +25,22 @@
         <tbody>
           <tr>
             <th>UKC</th>
-            <td>{$ poodle.ukc $}</td>
+            <td>{{ poodle.ukc }}</td>
           </tr>
           <tr>
             <th>Addtl</th>
-            <td>{$ poodle.addtl $}</td>
+            <td>{{ poodle.addtl }}</td>
           </tr>
           <tr>
             <th>Pedigree Source</th>
-            <td>{$ poodle.pedigree_src $}</td>
+            <td>{{ poodle.pedigree_src }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </article>
-<article v-if="showRegistrationForm">
+<article v-else>
   <form id="registration-form" ref="registration-form" method="post"
     @submit.prevent="changePoodle('registration-form')">
     <b-form-row>
@@ -85,11 +85,11 @@
 </form>
 
 </article>
-{% if perms.core.change_poodle %}
-<div class="mt-4 mb-0 d-flex flex-row justify-content-between align-items-end">
+
+<div v-if="perms.core.change_poodle" class="mt-4 mb-0 d-flex flex-row justify-content-between align-items-end">
   <b-button variant="outline-info" @click="showRegistrationForm=!showRegistrationForm">
     <i v-if="showRegistrationForm" class="fas fa-toggle-off"></i>
-    <i v-if="!showRegistrationForm" class="fas fa-toggle-on"></i> Update
+    <i v-else class="fas fa-toggle-on"></i> Update
   </b-button>
   <b-btn-group v-if="showRegistrationForm">
     <b-button variant="outline-secondary" type="reset">
@@ -100,17 +100,23 @@
     </b-button>
   </b-btn-group>
 </div>
-{% endif %}
+
 </div>
 </template>
 
 <script>
+  import config from './../configuration.js'
+  let perms = config.endpoints.perms();
     export default {
         name: 'PoodleRegistration',
-        delimiters: ['{$', '$}'],
         props: [
             'poodle',
             'showRegistrationForm'
         ],
+         data: function () {
+      return {
+        perms: perms
+      }
+    }
     }
 </script>
