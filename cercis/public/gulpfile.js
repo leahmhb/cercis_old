@@ -32,9 +32,9 @@ function pathsConfig(appName) {
     
     bootstrapSass: `${vendorsRoot}/bootstrap/scss`,
     vendorsJs: [
-      // `${vendorsRoot}/jquery/dist/jquery.slim.js`,
-      // `${vendorsRoot}/popper.js/dist/umd/popper.js`,
-      // `${vendorsRoot}/bootstrap/dist/js/bootstrap.js`,
+      `${vendorsRoot}/jquery/dist/jquery.slim.js`,
+      `${vendorsRoot}/popper.js/dist/umd/popper.js`,
+      `${vendorsRoot}/bootstrap/dist/js/bootstrap.js`,
     ],
     
     app: this.app,
