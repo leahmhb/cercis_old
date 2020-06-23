@@ -1,0 +1,19 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+//Bootstrap-Vue variable overrides
+$custom-control-gutter: $form-grid-gutter-width; //variable from bootstrap
+$custom-control-indicator-size: 1;
+$custom-control-indicator-bg-size: 1;
+$custom-radio-indicator-border-radius: $border-radius; //variable from bootstrap
+$custom-control-indicator-border-width: $border-radius; //variable from bootstrap
+$input-line-height-lg: $input-height-lg; //variable from bootstrap
+$input-line-height-sm: $input-height-sm; //variable from bootstrap
+
+$b-custom-file-line-height-lg: 1.5 !default;
+$b-custom-file-line-height-sm: 0.75 !default;
+$b-custom-file-padding-y-lg: 1rem;
+$b-custom-file-padding-y-sm: 0.5rem;
+
+$b-custom-file-height-inner-lg: calc(#{$b-custom-file-line-height-lg * 1rem} + #{$b-custom-file-padding-y-lg * 2}) !default;
+$b-custom-file-height-inner-sm: calc(#{$b-custom-file-line-height-sm * 1rem} + #{$b-custom-file-padding-y-sm * 2}) !default;
+

@@ -7,84 +7,80 @@
       </small>
     </div>
 
-    <h1 class="page-header d-flex flex-row justify-content-between align-items-center">
-      <div>{{ poodle.name_registered }} <span v-if="poodle.name_call">| <span class="text-condensed">{{
+      <h1 class="page-header d-flex flex-row justify-content-between align-items-center">
+        <div>{{ poodle.name_registered }} <span v-if="poodle.name_call">| <span class="text-condensed">{{
             poodle.name_call
             }}</span></span>
-      </div>
-    </h1>
+        </div>
+      </h1>
 
-    <section id="info-card">
-      <b-card no-body header-tag="header" border-variant="coffee" header-bg-variant="coffee"
-        header-text-variant="white">
-        <b-tabs card lazy>
-          <b-tab title="Basic" active>
-            <poodle-basic :poodle="poodle" :showBasicForm="showBasicForm"></poodle-basic>
-          </b-tab>
-          <b-tab title="Registration">
-            <poodle-registration :poodle="poodle" :showRegistrationForm="showRegistrationForm"></poodle-registration>
-          </b-tab>
-          <b-tab title="Health">
-            <poodle-health :poodle="poodle" :showHealthForm="showHealthForm"></poodle-health>
-          </b-tab>
-          <b-tab title="Comments">
-            <poodle-comments :poodle="poodle" :showCommentsForm="showCommentsForm"></poodle-comments>
-          </b-tab>
-        </b-tabs>
-      </b-card>
-    </section>
+      <section id="info-card">
+          <b-tabs nav-wrapper-class="col-2" content-class="col-10" lazy pills vertical>
+            <b-tab title="Basic" active>
+              <poodle-basic :poodle="poodle" :showBasicForm="showBasicForm"></poodle-basic>
+            </b-tab>
+            <b-tab title="Registration">
+              <poodle-registration :poodle="poodle" :showRegistrationForm="showRegistrationForm"></poodle-registration>
+            </b-tab>
+            <b-tab title="Health">
+              <poodle-health :poodle="poodle" :showHealthForm="showHealthForm"></poodle-health>
+            </b-tab>
+            <b-tab title="Comments">
+              <poodle-comments :poodle="poodle" :showCommentsForm="showCommentsForm"></poodle-comments>
+            </b-tab>
+          </b-tabs>       
+      </section>
 
-    <section id="related-card">
-      <b-card no-body header-tag="header" border-variant="coffee" header-bg-variant="coffee"
-        header-text-variant="white">
-        <b-tabs card lazy>
-          <b-tab title="Pedigree" active>
-            <three-gen-pedigree :poodle="poodle"></three-gen-pedigree>
-          </b-tab>
+      <section id="related-card">
+       
+          <b-tabs nav-wrapper-class="col-2" content-class="col-10" lazy pills vertical>
+            <b-tab title="Pedigree" active>
+              <three-gen-pedigree :poodle="poodle"></three-gen-pedigree>
+            </b-tab>
 
-          <b-tab title="Offspring" class="" v-if="poodle.offspring && poodle.offspring.length > 0">
-            <b-list-group flush>
-              <poodle-list-item v-for="p in poodle.offspring" v-bind:key="p.id" :poodle="p" type="offspring">
-              </poodle-list-item>
-            </b-list-group>
-          </b-tab>
-          <b-tab title="Siblings">
+            <b-tab title="Offspring" class="" v-if="poodle.offspring && poodle.offspring.length > 0">
+              <b-list-group flush>
+                <poodle-list-item v-for="p in poodle.offspring" v-bind:key="p.id" :poodle="p" type="offspring">
+                </poodle-list-item>
+              </b-list-group>
+            </b-tab>
 
-            <b-tabs pills card vertical end id="sibling-sub-tabs">
-              <b-tab title="Full" v-if="poodle.siblings_full && poodle.siblings_full.length > 0">
-                <b-list-group flush>
-                  <poodle-list-item v-for="p in poodle.siblings_full" v-bind:key="p.id" :poodle="p" type="full">
-                  </poodle-list-item>
-                </b-list-group>
-              </b-tab>
+            <b-tab title="Siblings">
+              <b-tabs pills card vertical end id="sibling-sub-tabs">
+                <b-tab title="Full" v-if="poodle.siblings_full && poodle.siblings_full.length > 0">
+                  <b-list-group flush>
+                    <poodle-list-item v-for="p in poodle.siblings_full" v-bind:key="p.id" :poodle="p" type="full">
+                    </poodle-list-item>
+                  </b-list-group>
+                </b-tab>
 
-              <b-tab title="Dam's Side" v-if="poodle.siblings_damside && poodle.siblings_damside.length > 0">
-                <b-list-group flush>
-                  <poodle-list-item v-for="p in poodle.siblings_damside" v-bind:key="p.id" :poodle="p" type="damside">
-                  </poodle-list-item>
-                </b-list-group>
-              </b-tab>
+                <b-tab title="Dam's Side" v-if="poodle.siblings_damside && poodle.siblings_damside.length > 0">
+                  <b-list-group flush>
+                    <poodle-list-item v-for="p in poodle.siblings_damside" v-bind:key="p.id" :poodle="p" type="damside">
+                    </poodle-list-item>
+                  </b-list-group>
+                </b-tab>
 
-              <b-tab title="Sire's Side" v-if="poodle.siblings_sireside && poodle.siblings_sireside.length > 0">
-                <b-list-group flush>
-                  <poodle-list-item v-for="p in poodle.siblings_sireside" v-bind:key="p.id" :poodle="p" type="sireside">
-                  </poodle-list-item>
-                </b-list-group>
-              </b-tab>
-            </b-tabs>
+                <b-tab title="Sire's Side" v-if="poodle.siblings_sireside && poodle.siblings_sireside.length > 0">
+                  <b-list-group flush>
+                    <poodle-list-item v-for="p in poodle.siblings_sireside" v-bind:key="p.id" :poodle="p"
+                      type="sireside">
+                    </poodle-list-item>
+                  </b-list-group>
+                </b-tab>
+              </b-tabs>
 
-          </b-tab>
-        </b-tabs>
-      </b-card>
-    </section>
+            </b-tab>
+          </b-tabs>    
+      </section>
 
 
-    <small>
-      Created {{ poodle.created_at }}
-      <span class="float-right">Last Updated {{ poodle.updated_at }}</span>
-    </small>
+      <small>
+        Created {{ poodle.created_at }}
+        <span class="float-right">Last Updated {{ poodle.updated_at }}</span>
+      </small>
+    </div>
 
-  </div>
 </template>
 
 <script>
@@ -164,7 +160,8 @@
         }
       ]
 
-      Promise.all([this.getPoodle(), this.getImages()]);
+      //Promise.all([this.getPoodle(), this.getImages()]);
+      this.getPoodle()
     },
     computed: {
       adminApproved: function () {
@@ -184,7 +181,8 @@
       },
       getImages: function () {
         this.loading = true
-        var url = SERVER_CONFIGURATION.endpoints.image() + '?poodle=crystal-creeks-conspiracy-of-kings-bcat-star-cgca/'
+        var url = SERVER_CONFIGURATION.endpoints.image() +
+          '?poodle=crystal-creeks-conspiracy-of-kings-bcat-star-cgca/'
         return axios.get(url).then((response) => {
           this.images = response.data.results || []
           this.loadng = false
@@ -274,3 +272,9 @@
     }
   }
 </script>
+
+<style scoped>
+.tab-content.col-10{
+  padding: 0
+}
+</style>

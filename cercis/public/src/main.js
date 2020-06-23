@@ -2,9 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import BootstrapVue from 'bootstrap-vue'
 
-import './assets/styles/custom-bootstrap-overrides.scss'
-import 'bootstrap/scss/bootstrap.scss'
-import 'bootstrap-vue/src/index.scss'
+import './assets/styles/_custom.scss'
 
 
 Vue.use(BootstrapVue)
