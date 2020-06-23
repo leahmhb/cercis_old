@@ -3,23 +3,51 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
         return process.env.BASE_URL;
     },
     endpoints: {
-        color() {
-            return "http://localhost:8000/api/color/";
+        home() {
+            return `http://localhost:8000/`;
         },
-        country() {
-            return "http://localhost:8000/api/country/";
+        about() {
+            `http://localhost:8000/about/`
         },
-        filter() {
-            return "http://localhost:8000/api/filter/";
+        api(model, slug) {
+            var url = `http://localhost:8000/api/${model}/`
+            if (slug) {
+                url += slug + '/'
+            }
+            return url
         },
-        poodle() {
-            return "http://localhost:8000/api/poodle/";
+        api_params(model, params) {
+            var url = `http://localhost:8000/api/${model}/?`
+            if (params) {
+                for (var p in params) {
+                    url += `${p.param}=${p.param_value}&`
+                }
+
+            }
+            return url
         },
-        person() {
-            return "http://localhost:8000/api/person/";
+        accounts(action) {
+            return `http://localhost:8000/accounts/${action}/`;
         },
-        image() {
-            return "http://localhost:8000/api/image/";
+        admin(app, model, id, action) {
+            if (app) {
+                return `http://localhost:8000/admin/${app}/${model}/${id}/${action}/`;
+            } else {
+                return `http://localhost:8000/admin/`;
+            }
+        },
+        core(model, action, slug) {
+            if (slug) {
+                return `http://localhost:8000/core/${model}/${action}/${slug}/`;
+            } else {
+                return `http://localhost:8000/core/${model}/${action}/`;
+            }
+        },
+        media() {
+            return "http://localhost:8000/media/";
+        },
+        users(slug) {
+            return `http://localhost:8000/users/${slug}/`;
         },
         perms() {
             return {
@@ -27,9 +55,19 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
                     'change_poodle': true
                 }
             }
+        },
+        request() {
+            return {
+                'user': {
+                    'is_authenticated': true
+                }
+            }
+        },
+        user() {
+            return {
+                'is_superuser': true
+            }
         }
-
-
     },
 };
 

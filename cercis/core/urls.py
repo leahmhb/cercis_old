@@ -4,8 +4,8 @@ from django.urls import include, path
 app_name = "core"
 urlpatterns = [
     path("vue-test/", views.VueTest.as_view(), name="vue-test"),
-    path("poodles/", views.PoodleList.as_view(), name="poodles"),
     path('poodle/', include([
+        path("all/", views.PoodleList.as_view(), name="poodle-all"),
         path("detail/<str:slug>/", views.PoodleDetail.as_view(), name="poodle-detail"),
     ])),
     path('person/', include([

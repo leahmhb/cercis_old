@@ -17,7 +17,19 @@
   <input type="hidden" name="server-settings-PERSONENDPOINT" value="{% url "api:person-list" %}">
   <input type="hidden" name="server-settings-MEDIAENDPOINT" value="{{ MEDIA_URL }}">
   <input type="hidden" name="server-settings-IMAGEENDPOINT" value="{% url 'api:image-list' %}">
+ 
+  {% url 'home' %}
+  {% url 'about' %}
   
+  {% url 'core:poodle-detail' 'crystal-creeks-conspiracy-of-kings-bcat-star-cgca' %}
+  {% url 'core:poodle-detail' 'theory-thick-as-thieves' %}
+
+  {% url 'core:poodles' %}
+  {% url 'admin:index' %}
+{% url 'users:detail' request.user.username  %}
+{% url 'account_logout' %}
+{% url 'account_login' %}
+{% url 'account_signup' %}
 </div>
 {% endblock content %}
 
