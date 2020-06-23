@@ -1,8 +1,8 @@
 <template>
   <div id="app">
 
-      <navbar></navbar>
- 
+    <navbar></navbar>
+
     <main role="main" class="flex-shrink-0">
       <div id="maincontent" class="container-fluid">
         <poodle></poodle>
@@ -20,8 +20,8 @@
   export default {
     name: 'App',
     components: {
-      'poodle': Poodle, 
-      'navbar': Navbar,     
+      'poodle': Poodle,
+      'navbar': Navbar,
     },
     data: function () {
       return {
