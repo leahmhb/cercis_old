@@ -97,3 +97,25 @@ section {
 #carousel {
   text-shadow: 1px 1px 2px $onyx;
 }
+
+div.socialaccount_ballot>ul.socialaccount_providers {
+  list-style: none;
+  padding-left: 0
+}
+
+.form-row {
+  margin-top: 0.5rem;
+}
+
+div.v-select {
+  background-color: #fff;
+}
+
+div.v-select.vs--single.vs--searchable div.vs__dropdown-toggle {
+  border-radius: 0;
+}
+
+div.v-select.form-control.form-control-sm {
+  font-size: 0.875rem;
+  line-height: 1.571;
+}

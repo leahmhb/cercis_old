@@ -62,19 +62,20 @@
 <script>
     import configuration from './../configuration.js'
     let config = configuration.endpoints;
+    let request = configuration.request();
+    let user = configuration.user();
     export default {
         props: [
-
         ],
         components: {
-
         },
         computed: {
-
         },
         data: function () {
             return {
-                config: config
+                config: config,
+                request: request,
+                user: user,
             }
         }
     }

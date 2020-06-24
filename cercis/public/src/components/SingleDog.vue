@@ -5,7 +5,7 @@
                 <i :class="['d-inline', 'float-right', 'fas', iconClass]" :title="poodle.sex"></i>
                 <span v-if="poodle.origin_country.code != 'UNK'" class="badge badge-light">{{ poodle.origin_country.code
                     }}</span>
-                <span v-if="poodle.color.text" class="badge badge-light">{{ poodle.color.text }}</span>
+                <span v-if="poodle.color" class="badge badge-light">{{ poodle.color.text }}</span>
             </span>
             {{ poodle.name_registered }}
         </a>

@@ -1,11 +1,11 @@
 <template>
     <div id="poodle">
-    <div v-if="loading" class="d-flex flex-row justify-content-center align-items-center">
-      <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
-      <small class="center-block">
-        Loading...
-      </small>
-    </div>
+        <div v-if="loading" class="d-flex flex-row justify-content-center align-items-center">
+            <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
+            <small class="center-block">
+                Loading...
+            </small>
+        </div>
         <h1 class="page-header d-flex flex-row justify-content-between align-items-center">
             <div>{{ poodle.name_registered }} <span v-if="poodle.name_call">| <span class="text-condensed">{{
             poodle.name_call
@@ -16,35 +16,24 @@
         <section id="info-card">
             <b-tabs nav-wrapper-class="col-2" content-class="col-10" lazy pills vertical>
                 <b-tab title="Basic" active>
-                    <poodle-basic :poodle="poodle" :showBasicForm="showBasicForm"></poodle-basic>
+                    <poodle-basic :poodle="poodle" formRef="basic-form"></poodle-basic>
                 </b-tab>
                 <b-tab title="Registration">
-                    <poodle-registration :poodle="poodle" :showRegistrationForm="showRegistrationForm">
+                    <poodle-registration :poodle="poodle" formRef="registration-form">
                     </poodle-registration>
                 </b-tab>
                 <b-tab title="Health">
-                    <poodle-health :poodle="poodle" :showHealthForm="showHealthForm"></poodle-health>
+                    <poodle-health :poodle="poodle" formRef="health-form"></poodle-health>
                 </b-tab>
-                <b-tab title="Comments">
-                    <poodle-comments :poodle="poodle" :showCommentsForm="showCommentsForm"></poodle-comments>
-                </b-tab>
-            </b-tabs>
-        </section>
-
-        <section id="related-card">
-
-            <b-tabs nav-wrapper-class="col-2" content-class="col-10" lazy pills vertical>
-                <b-tab title="Pedigree" active>
+                <b-tab title="Pedigree">
                     <three-gen-pedigree :poodle="poodle"></three-gen-pedigree>
                 </b-tab>
-
                 <b-tab title="Offspring" class="" v-if="poodle.offspring && poodle.offspring.length > 0">
                     <b-list-group flush>
                         <poodle-list-item v-for="p in poodle.offspring" v-bind:key="p.id" :poodle="p" type="offspring">
                         </poodle-list-item>
                     </b-list-group>
                 </b-tab>
-
                 <b-tab title="Siblings">
                     <b-tabs pills card vertical end id="sibling-sub-tabs">
                         <b-tab title="Full" v-if="poodle.siblings_full && poodle.siblings_full.length > 0">
@@ -54,7 +43,6 @@
                                 </poodle-list-item>
                             </b-list-group>
                         </b-tab>
-
                         <b-tab title="Dam's Side" v-if="poodle.siblings_damside && poodle.siblings_damside.length > 0">
                             <b-list-group flush>
                                 <poodle-list-item v-for="p in poodle.siblings_damside" v-bind:key="p.id" :poodle="p"
@@ -62,7 +50,6 @@
                                 </poodle-list-item>
                             </b-list-group>
                         </b-tab>
-
                         <b-tab title="Sire's Side"
                             v-if="poodle.siblings_sireside && poodle.siblings_sireside.length > 0">
                             <b-list-group flush>
@@ -72,16 +59,20 @@
                             </b-list-group>
                         </b-tab>
                     </b-tabs>
-
+                </b-tab>
+                <b-tab title="Comments">
+                    <poodle-comments :poodle="poodle" formRef="comments-form"></poodle-comments>
                 </b-tab>
             </b-tabs>
         </section>
 
+        <footer class="footer navbar navbar-expand-lg mt-auto py-3">
+            <div class="container-fluid navbar-text">
+                <span class="mr-auto">Created {{ poodle.created_at }}</span>
+                <span class="ml-auto">Updated {{ poodle.updated_at }}</span>
+            </div>
+        </footer>
 
-        <small>
-            Created {{ poodle.created_at }}
-            <span class="float-right">Last Updated {{ poodle.updated_at }}</span>
-        </small>
     </div>
 
 </template>
@@ -113,58 +104,13 @@
             ThreeGenPedigree
         },
         data: function () {
-            return {
-                showImageForm: false,
-                showBasicForm: false,
-                showRegistrationForm: false,
-                showHealthForm: false,
-                showCommentsForm: false,
+            return {               
                 loading: false,
                 poodle: {},
-                options: {
-                    sire: [],
-                    dam: [],
-                    color: [],
-                    variety: [],
-                    origin_country: [],
-                    owner: [],
-                    breeder: [],
-                },
                 hasImage: false,
             }
         },
         mounted() {
-            this.options.sex = [{
-                    code: 'M',
-                    label: 'Dog',
-                },
-                {
-                    code: 'F',
-                    label: 'Bitch'
-                },
-                {
-                    code: 'U',
-                    label: 'Unknown'
-                },
-            ]
-            this.options.variety = [{
-                    code: 'S',
-                    label: 'Standard',
-                },
-                {
-                    code: 'M',
-                    label: 'Miniature/Medium/Moyan'
-                },
-                {
-                    code: 'D',
-                    label: 'Dwarf'
-                },
-                {
-                    code: 'T',
-                    label: 'Toy'
-                }
-            ]
-
             //Promise.all([this.getPoodle(), this.getImages()]);
             this.getPoodle()
         },
@@ -196,101 +142,8 @@
                     console.log(error)
                 });
             },
-            searchColor: function (search) {
-                this.loading = true;
-                var url = config.api_get_param('color', [{
-                    'text': search
-                }])
-                return axios.get(url).then((response) => {
-                    this.options.color = response.data.results || [];
-                    this.loading = false
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
-            searchCountry: function (search) {
-                this.loading = true;
-                var url = config.api_get_param('country', [{
-                    'text': search
-                }])
-                return axios.get(url).then((response) => {
-                    this.options.origin_country = response.data.results || [];
-                    this.loading = false
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
-            searchBreeder: function (search) {
-                var url = config.api_get_param('person', [{
-                    'full_name': search
-                }])
-                return axios.get(url).then((response) => {
-                    this.options.breeder = response.data.results || [];
-                    this.loading = false
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
-            searchOwner: function (search) {
-                this.loading = true;
-                var url = config.api_get_param('person', [{
-                    'full_name': search
-                }])
-                return axios.get(url).then((response) => {
-                    this.options.owner = response.data.results || [];
-                    this.loading = false
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
-            searchDam: function (search) {
-                this.loading = true;
-                var url = config.api_get_param('poodle', [{
-                    'sex': 'F'
-                }, {
-                    'name_registered': search
-                }])
-                return axios.get(url).then((response) => {
-                    this.options.dam = response.data.results || [];
-                    this.loading = false
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
-            searchSire: function (search) {
-                this.loading = true;
-                var url = config.api_get_param('poodle', [{
-                    'sex': 'M'
-                }, {
-                    'name_registered': search
-                }])
-                return axios.get(url).then((response) => {
-                    this.options.sire = response.data.results || [];
-                    this.loading = false
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
-            /**
-             * @param search
-             * @param q
-             * @param options
-             * @param url
-             */
-            search: function (search, q, options, url) {
-                var self = this;
-                var params = new URLSearchParams();
-                params.append(q, search);
-                url += '?' + params
 
-                return axios.get(url).then((response) => {
-                    options = response.data.results || [];
-                    console.log(options)
-                    self.loading = false
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
+            
         }
     }
 </script>

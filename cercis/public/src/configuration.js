@@ -16,14 +16,22 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
             }
             return url
         },
-        api_params(model, params) {
-            var url = `http://localhost:8000/api/${model}/?`
-            if (params) {
-                for (var p in params) {
-                    url += `${p.param}=${p.param_value}&`
-                }
-
-            }
+        api_search_color(search) {
+            return `http://localhost:8000/api/color/?text=${search}`
+        },
+        api_search_country(search) {
+            return `http://localhost:8000/api/country/?text=${search}`
+        },
+        api_search_person(search) {
+            return `http://localhost:8000/api/person/?full_name=${search}`
+        },
+        api_search_poodle_parent(sex, search) {
+            return `http://localhost:8000/api/person/?sex=${sex}&name_registered=${search}`
+        },
+        api_params(model, lst) {
+            console.log(model)
+            console.log(lst)
+            var url = `http://localhost:8000/api/`           
             return url
         },
         accounts(action) {
@@ -49,26 +57,26 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
         users(slug) {
             return `http://localhost:8000/users/${slug}/`;
         },
-        perms() {
-            return {
-                'core': {
-                    'change_poodle': true
-                }
-            }
-        },
-        request() {
-            return {
-                'user': {
-                    'is_authenticated': true
-                }
-            }
-        },
-        user() {
-            return {
-                'is_superuser': true
+    },
+    perms() {
+        return {
+            'core': {
+                'change_poodle': true
             }
         }
     },
+    request() {
+        return {
+            'user': {
+                'is_authenticated': true
+            }
+        }
+    },
+    user() {
+        return {
+            'is_superuser': true
+        }
+    }
 };
 
 const PRODUCTION_SERVER_CONFIGURATION = {
