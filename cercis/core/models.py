@@ -284,24 +284,30 @@ class Poodle(BaseModel):
 
     def siblings_full(self):
         return Poodle.objects.filter(
-            Q(sire=self.sire) & Q(dam=self.dam)
-        ).order_by(
-            'name_registered'
-        )
+                Q(sire=self.sire) & Q(dam=self.dam)
+            ).exclude(
+                id=self.id
+            ).order_by(
+                'name_registered'
+            )
 
     def siblings_damside(self):
         return Poodle.objects.filter(
                 ~ Q(sire=self.sire) & Q(dam=self.dam)
+            ).exclude(
+                id=self.id
             ).order_by(
                 'dam'
             )
 
     def siblings_sireside(self):
         return Poodle.objects.filter(
-            Q(sire=self.sire) & ~Q(dam=self.dam)
-        ).order_by(
-            'sire'
-        )
+                Q(sire=self.sire) & ~Q(dam=self.dam)
+            ).exclude(
+                id=self.id
+            ).order_by(
+                'sire'
+            )
 
     def images(self):
         return self.poodles_images.all()

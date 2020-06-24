@@ -1,6 +1,6 @@
 <template>
     <div class="poodle-list-item">
-        <b-list-group-item :href="poodle.url" class="flex-column align-items-start">
+        <b-list-group-item :to="{name: 'poodle-detail', params: {slug:  poodle.slug }}" class="flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between align-items-center">
                 <h4 class="mb-1 text-condensed">
                     {{ poodle.name_registered }}

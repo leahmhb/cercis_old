@@ -103,16 +103,30 @@
             PoodleComments,
             ThreeGenPedigree
         },
+        created() {
+            // fetch the data when the view is created and the data is
+            // already being observed
+            //Promise.all([this.getPoodle(), this.getImages()]);
+            this.getPoodle()
+        },
+        watch: {
+            // call again the method if the route changes
+            '$route': 'getPoodle'
+        },
         data: function () {
-            return {               
+            return {
                 loading: false,
                 poodle: {},
                 hasImage: false,
+                slug: this.$route.params.slug,
             }
         },
+        beforeRouteUpdate(to, from, next) {
+            // just use `this`
+            this.slug = to.params.slug
+            next()
+        },
         mounted() {
-            //Promise.all([this.getPoodle(), this.getImages()]);
-            this.getPoodle()
         },
         computed: {
             adminApproved: function () {
@@ -122,7 +136,7 @@
         methods: {
             getPoodle: function () {
                 this.loading = true
-                var url = config.api('poodle', 'crystal-creeks-conspiracy-of-kings-bcat-star-cgca')
+                var url = config.api('poodle', this.slug)
                 return axios.get(url).then((response) => {
                     this.poodle = response.data || []
                     this.loading = false
@@ -133,7 +147,7 @@
             getImages: function () {
                 this.loading = true
                 var url = config.api_get_param('image', [{
-                    'poodle': 'crystal-creeks-conspiracy-of-kings-bcat-star-cgca'
+                    'poodle': this.slug
                 }])
                 return axios.get(url).then((response) => {
                     this.images = response.data.results || []
@@ -143,7 +157,7 @@
                 });
             },
 
-            
+
         }
     }
 </script>

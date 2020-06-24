@@ -7,7 +7,7 @@
 
     <main role="main" class="flex-shrink-0">
       <div id="maincontent" class="container-fluid">
-        <poodle></poodle>
+        <router-view></router-view>
       </div> <!-- /container -->
     </main>
   </div>
@@ -16,14 +16,13 @@
 <script>
   //import config from './configuration'
 
-  import Poodle from './components/Poodle'
   import Navbar from './components/Navbar'
 
   export default {
     name: 'App',
     components: {
-      'poodle': Poodle, 
-      'navbar': Navbar,     
+
+      'navbar': Navbar,
     },
     data: function () {
       return {

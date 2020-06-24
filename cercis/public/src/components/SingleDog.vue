@@ -1,6 +1,6 @@
 <template>
     <div class="single-dog">
-        <a :href="'/poodle/detail/' + poodle.slug" class="d-block">
+        <b-link :to="{name: 'poodle-detail', params: {slug:  poodle.slug }}" class="d-block">
             <span class="d-block float-right">
                 <i :class="['d-inline', 'float-right', 'fas', iconClass]" :title="poodle.sex"></i>
                 <span v-if="poodle.origin_country.code != 'UNK'" class="badge badge-light">{{ poodle.origin_country.code
@@ -8,7 +8,7 @@
                 <span v-if="poodle.color" class="badge badge-light">{{ poodle.color.text }}</span>
             </span>
             {{ poodle.name_registered }}
-        </a>
+        </b-link>
     </div>
 </template>
 
