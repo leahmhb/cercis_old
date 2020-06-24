@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from .filters import KennelFilter, PersonFilter, PoodleFilter
 from .models import Image, Kennel, Person, Poodle
-from .pagination import LargeResultsSetPagination, StandardResultsSetPagination
+from .pagination import LargeResultsSetPagination, StandardResultsSetPagination, OptionsResultsSetPagination
 from .permissions import IsOwnerOrReadOnly
 from .serializers import (
     ImageSerializer,
@@ -22,7 +22,7 @@ class PoodleFilterViewSet(ModelViewSet):
     filterset_class = PoodleFilter
     queryset = Poodle.objects.all()
     permission_classes = [IsOwnerOrReadOnly]
-    pagination_class = StandardResultsSetPagination
+    pagination_class = OptionsResultsSetPagination
 
     def get_queryset(self):
         qs = self.queryset.select_related(
@@ -79,6 +79,7 @@ class PersonViewSet(ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Person.objects.all()
     filterset_class = PersonFilter
+    pagination_class = OptionsResultsSetPagination
 
     def get_queryset(self):
         qs = self.queryset

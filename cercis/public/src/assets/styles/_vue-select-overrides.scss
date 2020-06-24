@@ -1,0 +1,20 @@
+$vs-border-radius: 0;
+$vs-dropdown-bg: $white;
+$vs-component-line-height: 1.571;
+
+div.v-select {
+  background-color: #fff;
+}
+
+div.v-select.vs--searchable ul li.pagination {
+  display: flex;
+  margin: .25rem auto;
+}
+
+div.v-select ul li.pagination button {
+   flex-grow: 1;
+}
+
+div.v-select ul li.pagination button:hover {
+  cursor: pointer;
+}

@@ -93,14 +93,26 @@
                 </b-form-group>
 
                 <b-form-group label="Sire" label-for="sire">
-                    <v-select label="name_registered" :options="options.sire" @search="searchSire($event)"
+                    <v-select label="name_registered" :options="sire.options" @search="searchSire($event)"
                         v-model="poodle.sire">
+                        <li slot="list-footer" class="pagination">
+                            <b-button @click.prevent="searchSire(sire.search, sire.previous)"
+                                :disabled="!sire.previous">Prev</b-button>
+                            <b-button @click.prevent="searchSire(sire.search, sire.next)" :disabled="!sire.next">Next
+                            </b-button>
+                        </li>
                     </v-select>
                 </b-form-group>
 
                 <b-form-group label="Dam" label-for="dam">
-                    <v-select label="name_registered" :options="options.dam" @search="searchDam($event)"
+                    <v-select label="name_registered" :options="dam.options" @search="searchDam($event)"
                         v-model="poodle.dam">
+                        <li slot="list-footer" class="pagination">
+                            <b-button @click.prevent="searchDam(dam.search, dam.previous)" :disabled="!dam.previous">
+                                Prev</b-button>
+                            <b-button @click.prevent="searchDam(dam.search, dam.next)" :disabled="!dam.next">Next
+                            </b-button>
+                        </li>
                     </v-select>
                 </b-form-group>
 
@@ -108,7 +120,7 @@
                     <v-select label="text" :options="options.color" @search="searchColor($event)"
                         v-model="poodle.color">
                     </v-select>
-                    <b-form-text v-if="poodle.color.text!=poodle.pd_color" class="help-text">
+                    <b-form-text v-if="poodle.color && poodle.color.text!=poodle.pd_color" class="help-text">
                         Please select a color close to {{ poodle.pd_color }}
                     </b-form-text>
                 </b-form-group>
@@ -134,14 +146,26 @@
                 </b-form-group>
 
                 <b-form-group label="Owners" label-for="owners">
-                    <v-select label="full_name" v-model="poodle.owners" :options="options.owner"
+                    <v-select multiple label="full_name" v-model="poodle.owners" :options="owner.options"
                         @search="searchOwner($event)">
+                        <li slot="list-footer" class="pagination">
+                            <b-button @click.prevent="searchOwner(owner.search, owner.previous)"
+                                :disabled="!owner.previous">Prev</b-button>
+                            <b-button @click.prevent="searchOwner(owner.search, owner.next)" :disabled="!owner.next">
+                                Next</b-button>
+                        </li>
                     </v-select>
                 </b-form-group>
 
                 <b-form-group label="Breeders" label-for="breeders">
-                    <v-select label="full_name" v-model="poodle.breeders" :options="options.breeder"
+                    <v-select multiple label="full_name" v-model="poodle.breeders" :options="breeder.options"
                         @search="searchBreeder($event)">
+                        <li slot="list-footer" class="pagination">
+                            <b-button @click.prevent="searchBreeder(breeder.search, breeder.previous)"
+                                :disabled="!breeder.previous">Prev</b-button>
+                            <b-button @click.prevent="searchBreeder(breeder.search, breeder.next)"
+                                :disabled="!breeder.next">Next</b-button>
+                        </li>
                     </v-select>
                 </b-form-group>
 
@@ -168,7 +192,7 @@
                 <i class="fas fa-toggle-on"></i> Update
             </b-button>
             <b-btn-group v-if="showForm">
-                <b-button variant="outline-secondary" type="reset">
+                <b-button variant="outline-warning" type="reset">
                     <i class="fas fa-eraser"></i> Reset
                 </b-button>
                 <b-button variant="success" type="subit" @click="changePoodle(formRef)">
@@ -224,17 +248,38 @@
         data: function () {
             return {
                 options: {
-                    sire: [],
-                    dam: [],
                     color: [],
                     variety: [],
                     origin_country: [],
-                    owner: [],
-                    breeder: [],
                 },
-                showForm: false,
+                sire: {
+                    options: [],
+                    next: null,
+                    previous: null,
+                    count: null,
+                },
+                dam: {
+                    options: [],
+                    next: null,
+                    previous: null,
+                    count: null,
+                },
+                owner: {
+                    options: [],
+                    next: null,
+                    previous: null,
+                    count: null,
+                },
+                breeder: {
+                    options: [],
+                    next: null,
+                    previous: null,
+                    count: null,
+                },
+                showForm: true,
                 perms: perms,
-                config: config
+                config: config,
+
             }
         },
         mounted() {
@@ -270,27 +315,10 @@
             ]
         },
         methods: {
-            /**
-             * @param search
-             * @param q
-             * @param options
-             * @param url
-             */
-            // search: function (search, q, options, url) {
-            //     var self = this;
-            //     var params = new URLSearchParams();
-            //     params.append(q, search);
-            //     url += '?' + params
-
-            //     return axios.get(url).then((response) => {
-            //         options = response.data.results || [];
-            //         console.log(options)
-            //         self.loading = false
-            //     }).catch(error => {
-            //         console.log(error)
-            //     });
-            // },
-            searchColor: function (search) {                
+            searchColor: function (search) {
+                if (search.length < 3) {
+                    return
+                }
                 this.loading = true;
                 var url = config.api_search_color(search)
                 return axios.get(url).then((response) => {
@@ -301,6 +329,9 @@
                 });
             },
             searchCountry: function (search) {
+                if (search.length < 3) {
+                    return
+                }
                 this.loading = true;
                 var url = config.api_search_country(search)
                 return axios.get(url).then((response) => {
@@ -310,40 +341,95 @@
                     console.log(error)
                 });
             },
-            searchBreeder: function (search) {
-                var url = config.api_seach_person(search)
+            searchBreeder: function (search, page_url) {
+                if (search.length < 3) {
+                    return
+                }
+
+                this.loading = true
+                var url = ''
+                if (page_url) {
+                    url = page_url
+                } else {
+                    url = config.api_search_person(search)
+                    this.breeder.search = search
+                }
+
                 return axios.get(url).then((response) => {
-                    this.options.breeder = response.data.results || [];
+                    console.log(response)
+                    this.breeder.count = response.data.count
+                    this.breeder.next = response.data.next
+                    this.breeder.previous = response.data.previous
+                    this.breeder.options = response.data.results || []
                     this.loading = false
                 }).catch(error => {
                     console.log(error)
                 });
             },
-            searchOwner: function (search) {
+            searchOwner: function (search, page_url) {
+                if (search.length < 3) {
+                    return
+                }
                 this.loading = true;
-               var url = config.api_search_person(search)
+                var url = ''
+                if (page_url) {
+                    url = page_url
+                } else {
+                    url = config.api_search_person(search)
+                    this.owner.search = search
+                }
                 return axios.get(url).then((response) => {
-                    this.options.owner = response.data.results || [];
+                    this.owner.count = response.data.count
+                    this.owner.next = response.data.next
+                    this.owner.previous = response.data.previous
+                    this.owner.options = response.data.results || []
                     this.loading = false
+
                 }).catch(error => {
                     console.log(error)
                 });
             },
-            searchDam: function (search) {
-                this.loading = true;                
-                var url = config.api_search_poodle_parent('F', search)
-                return axios.get(url).then((response) => {
-                    this.options.dam = response.data.results || [];
-                    this.loading = false
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
-            searchSire: function (search) {
+            searchDam: function (search, page_url) {
+                if (search.length < 5) {
+                    return
+                }
                 this.loading = true;
-                var url = config.api_search_poodle_parent('M', search)
+
+                var url = ''
+                if (page_url) {
+                    url = page_url
+                } else {
+                    url = url = config.api_search_poodle_parent('F', search)
+                    this.dam.search = search
+                }
+
                 return axios.get(url).then((response) => {
-                    this.options.sire = response.data.results || [];
+                    this.dam.count = response.data.count
+                    this.dam.next = response.data.next
+                    this.dam.previous = response.data.previous
+                    this.dam.options = response.data.results || []
+                    this.loading = false
+                }).catch(error => {
+                    console.log(error)
+                });
+            },
+            searchSire: function (search, page_url) {
+                if (search.length < 5) {
+                    return
+                }
+                this.loading = true;
+               var url = ''
+                if (page_url) {
+                    url = page_url
+                } else {
+                    url = url = config.api_search_poodle_parent('M', search)
+                    this.sire.search = search
+                }
+                return axios.get(url).then((response) => {
+                    this.sire.count = response.data.count
+                    this.sire.next = response.data.next
+                    this.sire.previous = response.data.previous
+                    this.sire.options = response.data.results || []
                     this.loading = false
                 }).catch(error => {
                     console.log(error)

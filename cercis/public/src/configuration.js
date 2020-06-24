@@ -26,7 +26,7 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
             return `http://localhost:8000/api/person/?full_name=${search}`
         },
         api_search_poodle_parent(sex, search) {
-            return `http://localhost:8000/api/person/?sex=${sex}&name_registered=${search}`
+            return `http://localhost:8000/api/filter/?sex=${sex}&name_registered=${search}`
         },
         api_params(model, lst) {
             console.log(model)

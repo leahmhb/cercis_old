@@ -79,7 +79,7 @@
         <i class="fas fa-toggle-on"></i> Update
       </b-button>
       <b-btn-group v-if="showForm">
-        <b-button variant="outline-secondary" type="reset">
+        <b-button variant="outline-warning" type="reset">
           <i class="fas fa-eraser"></i> Reset
         </b-button>
         <b-button variant="success" type="subit" @click="changePoodle(formRef)">

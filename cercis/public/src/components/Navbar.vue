@@ -33,7 +33,7 @@
 
                                 <b-dropdown-item :href="config.users(request.user.username)">
                                     <i class="fas fa-user"></i>
-                                    {% trans "My Profile" %}
+                                    Profile
                                 </b-dropdown-item>
                                 <b-dropdown-item :href="config.accounts('logout')">
                                     <i class="fas fa-sign-out-alt"></i>
