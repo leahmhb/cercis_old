@@ -28,6 +28,7 @@ SEX_CHOICES = (
 VARIETY_CHOICES = (("S", "Standard"), ("M", "Miniature/Moyen"), ("D", "Dwarf"), ("T", "Toy"))
 
 
+
 class BaseModel(Model):
     created_at = DateTimeField(verbose_name="Created", auto_now_add=True)
     updated_at = DateTimeField(verbose_name="Updated", auto_now=True)
@@ -158,6 +159,7 @@ class Poodle(BaseModel):
         blank=True,
         default=""
     )
+    ofa_url = URLField(verbose_name="OFA URL", max_length=300, **NULL_AND_BLANK, default="")
     akc = CharField(
         verbose_name="AKC",
         max_length=50,
@@ -269,6 +271,18 @@ class Poodle(BaseModel):
     def get_absolute_url(self):
         return reverse("core:poodle-detail", args=[str(self.slug)])
 
+    def get_owners(self):
+        return ", ".join([o.full_name for o in self.owners.all()])
+
+    def get_breeders(self):
+        return ", ".join([o.full_name for o in self.breeders.all()])
+
+    def get_titles_p(self):
+        return " ".join([o.abbr for o in self.titles_prefix.all()])
+
+    def get_titles_s(self):
+        return " ".join([o.abbr for o in self.titles_suffix.all()])
+
     def offspring(self):
         return Poodle.objects.filter(
             Q(sire=self.id) | Q(dam=self.id)
@@ -315,22 +329,6 @@ class Poodle(BaseModel):
     @staticmethod
     def autocomplete_search_fields():
         return ('name_registered__icontains', 'name_call__icontains')
-
-
-class HealthClearance(Model):
-    poodle = ForeignKey(Poodle, verbose_name="Poodle",
-                        related_name='poodles_health',
-                        on_delete=PROTECT)
-    name = CharField(verbose_name="Clearance", max_length=255, **NULL_AND_BLANK)
-    result = CharField(verbose_name="Result", max_length=50,
-                       **NULL_AND_BLANK)
-    ofa_num = CharField(verbose_name="OFA #", max_length=50, **NULL_AND_BLANK)
-    is_viewable = BooleanField(verbose_name="Viewable?", default=True)
-    created_at = DateTimeField(auto_now_add=True)
-    updated_at = DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return '%s %s: %s' % (self.poodle.name_call, self.name, self.result)
 
 
 class Image(BaseModel):
