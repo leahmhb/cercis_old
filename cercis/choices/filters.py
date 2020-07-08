@@ -1,9 +1,26 @@
 from django.db.models import CharField
 from django_filters import CharFilter, FilterSet
 
-from .forms import ColorFilterForm, CountryFilterForm
-from .models import Color, Country
+from .forms import ColorFilterForm, CountryFilterForm, TitleFilterForm
+from .models import Color, Country, Title
 
+
+class TitleFilter(FilterSet):
+
+    class Meta:
+        model = Title
+        form = TitleFilterForm
+        fields = [
+            'abbr',
+        ]
+        filter_overrides = {
+            CharField: {
+                'filter_class': CharFilter,
+                'extra': lambda f: {
+                    'lookup_expr': 'icontains',
+                },
+            },
+        }
 
 class ColorFilter(FilterSet):
 

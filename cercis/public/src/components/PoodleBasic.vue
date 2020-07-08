@@ -84,8 +84,33 @@
                     <b-form-input id="call-name" v-model="poodle.name_call" trim></b-form-input>
                 </b-form-group>
 
+
+                <b-form-group label="Prefix Titles" label-for="titles_prefix">
+                    <v-select multiple label="abbr" v-model="poodle.titles_prefix" :options="title.options"
+                        @search="searchTitle($event)">
+                        <li slot="list-footer" class="pagination">
+                            <b-button @click.prevent="searchTitle(title.search, title.previous)"
+                                :disabled="!title.previous">Prev</b-button>
+                            <b-button @click.prevent="searchTitle(title.search, title.next)" :disabled="!title.next">
+                                Next</b-button>
+                        </li>
+                    </v-select>
+                </b-form-group>
+
                 <b-form-group label="Registered Name" label-for="registered-name">
                     <b-form-input id="registered-name" v-model="poodle.name_registered" trim></b-form-input>
+                </b-form-group>
+
+                <b-form-group label="Suffix Titles" label-for="titles_suffix">
+                    <v-select multiple label="abbr" v-model="poodle.titles_suffix" :options="title.options"
+                        @search="searchTitle($event)">
+                        <li slot="list-footer" class="pagination">
+                            <b-button @click.prevent="searchTitle(title.search, title.previous)"
+                                :disabled="!title.previous">Prev</b-button>
+                            <b-button @click.prevent="searchTitle(title.search, title.next)" :disabled="!title.next">
+                                Next</b-button>
+                        </li>
+                    </v-select>
                 </b-form-group>
 
                 <b-form-group label="Honorifics" label-for="honorifics">
@@ -252,6 +277,12 @@
                     variety: [],
                     origin_country: [],
                 },
+                title: {
+                    options: [],
+                    next: null,
+                    previous: null,
+                    count: null,
+                },
                 sire: {
                     options: [],
                     next: null,
@@ -323,6 +354,19 @@
                 var url = config.api_search_color(search)
                 return axios.get(url).then((response) => {
                     this.options.color = response.data.results || [];
+                    this.loading = false
+                }).catch(error => {
+                    console.log(error)
+                });
+            },
+            searchTitle: function (search) {
+                if (search.length < 1) {
+                    return
+                }
+                this.loading = true;
+                var url = config.api_search_title(search)
+                return axios.get(url).then((response) => {
+                    this.options.title = response.data.results || [];
                     this.loading = false
                 }).catch(error => {
                     console.log(error)
@@ -418,7 +462,7 @@
                     return
                 }
                 this.loading = true;
-               var url = ''
+                var url = ''
                 if (page_url) {
                     url = page_url
                 } else {

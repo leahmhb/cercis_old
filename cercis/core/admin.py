@@ -3,7 +3,7 @@ import csv
 from django.contrib.admin import ModelAdmin, TabularInline, register, site
 from django.http import HttpResponse
 
-from .models import Image, Kennel, Person, Poodle, HealthClearance
+from .models import Image, Kennel, Person, Poodle
 
 
 def export_poodles(modeladmin, request, queryset):
@@ -21,14 +21,52 @@ def export_poodles(modeladmin, request, queryset):
 export_poodles.short_description = "Export to csv"
 
 
+def add_poodle_breeder_christi_gable(modeladmin, request, queryset):
+    christi = Person.objects.get(id=1)
+    for obj in queryset:
+        obj.breeders.add(christi)
+        obj.save()
+
+
+add_poodle_breeder_christi_gable.short_description = "Add breeder Christi Gable"
+
+
+def add_poodle_breeder_christi_gable_mark_robeson(modeladmin, request, queryset):
+    mark = Person.objects.get(id=47104)
+    christi = Person.objects.get(id=1)
+    for obj in queryset:
+        obj.breeders.add(mark)
+        obj.breeders.add(christi)
+        obj.save()
+
+
+add_poodle_breeder_christi_gable_mark_robeson.short_description = "Add breeder Christi Gable & Mark Robeson"
+
+
+def add_poodle_owner_christi_gable(modeladmin, request, queryset):
+    christi = Person.objects.get(id=1)
+    for obj in queryset:
+        obj.owners.add(christi)
+        obj.save()
+
+
+add_poodle_owner_christi_gable.short_description = "Add owner Christi Gable"
+
+
+def add_poodle_owner_christi_gable_mark_robeson(modeladmin, request, queryset):
+    mark = Person.objects.get(id=47104)
+    christi = Person.objects.get(id=1)
+    for obj in queryset:
+        obj.owners.add(mark)
+        obj.owners.add(christi)
+        obj.save()
+
+
+add_poodle_owner_christi_gable_mark_robeson.short_description = "Add owner Christi Gable & Mark Robeson"
+
+
 class image_inline(TabularInline):
     model = Image
-    extra = 1
-    max_num = 12
-
-
-class healthclearance_inline(TabularInline):
-    model = HealthClearance
     extra = 1
     max_num = 12
 
@@ -54,16 +92,18 @@ class PoodleAdmin(ModelAdmin):
         'm2m': ['owners', 'breeders', 'titles_prefix', 'titles_suffix'],
     }
 
-    inlines = [image_inline, healthclearance_inline]
+    inlines = [image_inline]
     list_display = (
-        "created_at",
-        "id",
+        "get_titles_p",
         "name_registered",
+        "get_titles_s",
+        "name_call",
         "sex",
         "color",
-        "pd_color",
         "variety",
         "origin_country",
+        "get_owners",
+        "get_breeders",
         "is_viewable",
     )
     list_display_links = ("name_registered",)
@@ -83,7 +123,13 @@ class PoodleAdmin(ModelAdmin):
         'titles_suffix__abbr'
     )
     list_per_page = 25
-    actions = [export_poodles]
+    actions = [
+        export_poodles,
+        add_poodle_breeder_christi_gable,
+        add_poodle_breeder_christi_gable_mark_robeson,
+        add_poodle_owner_christi_gable,
+        add_poodle_owner_christi_gable_mark_robeson,
+        ]
     list_select_related = (
         'color',
         'origin_country'
@@ -102,8 +148,11 @@ class PoodleAdmin(ModelAdmin):
         'variety',
         'dob_dod',
         ('dob', 'dod'),
+        ('pd_owner', 'pd_breeder'),
         ('owners', 'breeders'),
-        'sire', 'dam'
+        'sire', 'dam',
+        'pedigree_src',
+        'comments'
     )
 
     fieldsets = (
@@ -114,7 +163,9 @@ class PoodleAdmin(ModelAdmin):
         ('Health', {
             'classes': ('collapse',),
             'fields': (
-                'chic', 'health_information',
+                'ofa_url',
+                'chic',
+                'health_information',
                 'hip_clearance',
                 'vwd_clearance',
                 'eye_clearance',
@@ -155,16 +206,6 @@ class ImageAdmin(ModelAdmin):
     list_display_links = ("caption", "poodle")
     list_editable = ("is_viewable",)
     search_fields = ("caption", "poodle", "category", "comments")
-    list_per_page = 25
-
-
-@register(HealthClearance)
-class HealthClearanceAdmin(ModelAdmin):
-    list_display = ('name', 'result', 'poodle', 'is_viewable', )
-    list_display_links = ('name', 'result', 'poodle')
-    list_filter = ('name', 'result', )
-    list_editable = ('is_viewable',)
-    search_fields = ('name', 'result', 'poodle')
     list_per_page = 25
 
 

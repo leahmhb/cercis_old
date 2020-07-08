@@ -19,6 +19,9 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
         api_search_color(search) {
             return `http://localhost:8000/api/color/?text=${search}`
         },
+        api_search_title(search) {
+            return `http://localhost:8000/api/title/?abbr=${search}`
+        },
         api_search_country(search) {
             return `http://localhost:8000/api/country/?text=${search}`
         },
@@ -31,7 +34,7 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
         api_params(model, lst) {
             console.log(model)
             console.log(lst)
-            var url = `http://localhost:8000/api/`           
+            var url = `http://localhost:8000/api/`
             return url
         },
         accounts(action) {
