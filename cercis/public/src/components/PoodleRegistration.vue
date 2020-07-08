@@ -33,7 +33,9 @@
               </tr>
               <tr>
                 <th>Pedigree Source</th>
-                <td>{{ poodle.pedigree_src }}</td>
+                <td>
+                  <a :href="poodle.pedigree_src">#</a>                  
+                </td>
               </tr>
             </tbody>
           </table>
