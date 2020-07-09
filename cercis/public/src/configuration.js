@@ -3,62 +3,38 @@ const DEVELOPMENT_SERVER_CONFIGURATION = {
         return process.env.BASE_URL;
     },
     endpoints: {
-        home() {
-            return `http://localhost:8000/`;
+        color() {
+            return `http://localhost:8000/api/color/`
         },
-        about() {
-            `http://localhost:8000/about/`
+        title() {
+            return `http://localhost:8000/api/title/`
         },
-        api(model, slug) {
-            var url = `http://localhost:8000/api/${model}/`
-            if (slug) {
-                url += slug + '/'
-            }
-            return url
+        country() {
+            return `http://localhost:8000/api/country/`
         },
-        api_search_color(search) {
-            return `http://localhost:8000/api/color/?text=${search}`
+        poodle() {
+            return `http://localhost:8000/api/poodle/`
         },
-        api_search_title(search) {
-            return `http://localhost:8000/api/title/?abbr=${search}`
+        person() {
+            return `http://localhost:8000/api/person/`
         },
-        api_search_country(search) {
-            return `http://localhost:8000/api/country/?text=${search}`
+        filter() {
+            return `http://localhost:8000/api/filter/`
         },
-        api_search_person(search) {
-            return `http://localhost:8000/api/person/?full_name=${search}`
-        },
-        api_search_poodle_parent(sex, search) {
-            return `http://localhost:8000/api/filter/?sex=${sex}&name_registered=${search}`
-        },
-        api_params(model, lst) {
-            console.log(model)
-            console.log(lst)
-            var url = `http://localhost:8000/api/`
-            return url
+        image() {
+            return `http://localhost:8000/api/image/`
         },
         accounts(action) {
-            return `http://localhost:8000/accounts/${action}/`;
+            return `http://localhost:8000/accounts/${action}`;
         },
-        admin(app, model, id, action) {
-            if (app) {
-                return `http://localhost:8000/admin/${app}/${model}/${id}/${action}/`;
-            } else {
-                return `http://localhost:8000/admin/`;
-            }
-        },
-        core(model, action, slug) {
-            if (slug) {
-                return `http://localhost:8000/core/${model}/${action}/${slug}/`;
-            } else {
-                return `http://localhost:8000/core/${model}/${action}/`;
-            }
+        admin() {
+            return `http://localhost:8000/admin/`;
         },
         media() {
             return "http://localhost:8000/media/";
         },
-        users(slug) {
-            return `http://localhost:8000/users/${slug}/`;
+        users(username) {
+            return `http://localhost:8000/users/${username}`;
         },
     },
     perms() {
@@ -88,36 +64,62 @@ const PRODUCTION_SERVER_CONFIGURATION = {
             .value;
     },
     endpoints: {
-        color() {
-            return document.querySelector(
-                'input[name="server-settings-COLORENDPOINT"]'
-            ).value;
-        },
-        country() {
-            return document.querySelector(
-                'input[name="server-settings-COUNTRYENDPOINT"]'
-            ).value;
-        },
-        filter() {
-            return document.querySelector(
-                'input[name="server-settings-FILTERENDPOINT"]'
-            ).value;
-        },
+
         poodle() {
             return document.querySelector(
-                'input[name="server-settings-POODLEENDPOINT"]'
+                'input[name="server-settings-POODLE-ENDPOINT"]'
             ).value;
         },
         person() {
             return document.querySelector(
-                'input[name="server-settings-PERSONENDPOINT"]'
+                'input[name="server-settings-PERSON-ENDPOINT"]'
+            ).value;
+        },
+        color() {
+            return document.querySelector(
+                'input[name="server-settings-COLOR-ENDPOINT"]'
+            ).value;
+        },
+        title() {
+            return document.querySelector(
+                'input[name="server-settings-TITLE-ENDPOINT"]'
+            ).value;
+        },
+        country() {
+            return document.querySelector(
+                'input[name="server-settings-COUNTRY-ENDPOINT"]'
+            ).value;
+        },
+        filter() {
+            return document.querySelector(
+                'input[name="server-settings-FILTER-ENDPOINT"]'
             ).value;
         },
         image() {
             return document.querySelector(
-                'input[name="server-settings-IMAGEENDPOINT"]'
+                'input[name="server-settings-IMAGE-ENDPOINT"]'
             ).value;
-        }
+        },
+        accounts(action) {
+            return document.querySelector(
+                'input[name="server-settings-ACCOUNTS-ENDPOINT"]'
+            ).value + action;
+        },
+        admin() {
+            return document.querySelector(
+                'input[name="server-settings-ADMIN-ENDPOINT"]'
+            ).value;
+        },
+        media() {
+            return document.querySelector(
+                'input[name="server-settings-MEDIA-ENDPOINT"]'
+            ).value;
+        },
+        users(username) {
+            return document.querySelector(
+                'input[name="server-settings-USERS-ENDPOINT"]'
+            ).value + username
+        },
     },
 };
 

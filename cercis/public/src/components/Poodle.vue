@@ -136,7 +136,7 @@
         methods: {
             getPoodle: function () {
                 this.loading = true
-                var url = config.api('poodle', this.slug)
+                var url = config.poodle() +  this.slug
                 return axios.get(url).then((response) => {
                     this.poodle = response.data || []
                     this.loading = false
@@ -146,9 +146,7 @@
             },
             getImages: function () {
                 this.loading = true
-                var url = config.api_get_param('image', [{
-                    'poodle': this.slug
-                }])
+                var url = config.image() + '?poodle=' + this.slug
                 return axios.get(url).then((response) => {
                     this.images = response.data.results || []
                     this.loadng = false

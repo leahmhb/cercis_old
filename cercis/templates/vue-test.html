@@ -10,26 +10,25 @@
 <div id="app" v-cloak v-if="adminApproved">
 
   <input type="hidden" name="server-settings-BASEURL" value="/">
-  <input type="hidden" name="server-settings-COLORENDPOINT" value="{% url 'api:color-list' %}">
-  <input type="hidden" name="server-settings-POODLEENDPOINT" value="{% url "api:poodle-list" %}">
-  <input type="hidden" name="server-settings-POODLEENDPOINT" value="{% url "api:filter-list" %}">
-  <input type="hidden" name="server-settings-COUNTRYENDPOINT" value="{% url "api:country-list" %}">
-  <input type="hidden" name="server-settings-PERSONENDPOINT" value="{% url "api:person-list" %}">
-  <input type="hidden" name="server-settings-MEDIAENDPOINT" value="{{ MEDIA_URL }}">
-  <input type="hidden" name="server-settings-IMAGEENDPOINT" value="{% url 'api:image-list' %}">
- 
-  {% url 'home' %}
-  {% url 'about' %}
-  
-  {% url 'core:poodle-detail' 'crystal-creeks-conspiracy-of-kings-bcat-star-cgca' %}
-  {% url 'core:poodle-detail' 'theory-thick-as-thieves' %}
+  <input type="hidden" name="server-settings-MEDIA-ENDPOINT" value="{{ MEDIA_URL }}">
 
-  {% url 'core:poodles' %}
-  {% url 'admin:index' %}
-{% url 'users:detail' request.user.username  %}
-{% url 'account_logout' %}
-{% url 'account_login' %}
-{% url 'account_signup' %}
+  <input type="hidden" name="server-settings-ADMIN-ENDPOINT" value="{% url 'admin:index' %}">
+  <input type="hidden" name="server-settings-USERS-ENDPOINT" value="/users/">
+  <input type="hidden" name="server-settings-ACCOUNTS-ENDPOINT" value="/accounts/">
+
+  <input type="hidden" name="server-settings-POODLE-ENDPOINT" value="{% url "api:poodle-list" %}">
+  <input type="hidden" name="server-settings-PERSON-ENDPOINT" value="{% url "api:person-list" %}">
+
+
+  <input type="hidden" name="server-settings-COLOR-ENDPOINT" value="{% url 'api:color-list' %}">
+  <input type="hidden" name="server-settings-FILTER-ENDPOINT" value="{% url "api:filter-list" %}">
+  <input type="hidden" name="server-settings-COUNTRY-ENDPOINT" value="{% url "api:country-list" %}">
+  <input type="hidden" name="server-settings-TITLE-ENDPOINT" value="{% url "api:title-list" %}">
+  <input type="hidden" name="server-settings-IMAGE-ENDPOINT" value="{% url 'api:image-list' %}">
+
+
+
+
 </div>
 {% endblock content %}
 

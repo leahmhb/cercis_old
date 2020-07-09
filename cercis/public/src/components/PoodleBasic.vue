@@ -351,7 +351,7 @@
                     return
                 }
                 this.loading = true;
-                var url = config.api_search_color(search)
+                var url = config.color() + '?text=' + search
                 return axios.get(url).then((response) => {
                     this.options.color = response.data.results || [];
                     this.loading = false
@@ -364,7 +364,7 @@
                     return
                 }
                 this.loading = true;
-                var url = config.api_search_title(search)
+                var url = config.title() + '?abbr=' + search
                 return axios.get(url).then((response) => {
                     this.options.title = response.data.results || [];
                     this.loading = false
@@ -377,7 +377,7 @@
                     return
                 }
                 this.loading = true;
-                var url = config.api_search_country(search)
+                var url = config.country() + '?text=' + search
                 return axios.get(url).then((response) => {
                     this.options.origin_country = response.data.results || [];
                     this.loading = false
@@ -395,7 +395,7 @@
                 if (page_url) {
                     url = page_url
                 } else {
-                    url = config.api_search_person(search)
+                    url = config.person() + '?full_name=' + search
                     this.breeder.search = search
                 }
 
@@ -419,7 +419,7 @@
                 if (page_url) {
                     url = page_url
                 } else {
-                    url = config.api_search_person(search)
+                    url = config.person() + '?full_name=' + search
                     this.owner.search = search
                 }
                 return axios.get(url).then((response) => {
@@ -443,7 +443,7 @@
                 if (page_url) {
                     url = page_url
                 } else {
-                    url = url = config.api_search_poodle_parent('F', search)
+                    url = url = config.filter() + '?sex=F&name_registered=' + search 
                     this.dam.search = search
                 }
 
@@ -466,7 +466,7 @@
                 if (page_url) {
                     url = page_url
                 } else {
-                    url = url = config.api_search_poodle_parent('M', search)
+                    url = url = config.filter() + '?sex=M&name_registered=' + search
                     this.sire.search = search
                 }
                 return axios.get(url).then((response) => {
