@@ -82,14 +82,14 @@
 
     import axios from 'axios'
 
-    import PoodleListItem from './PoodleListItem'
-    import PoodleBasic from './PoodleBasic'
+    import PoodleListItem from '../components/PoodleListItem'
+    import PoodleBasic from '../components/PoodleBasic'
 
-    import PoodleRegistration from './PoodleRegistration'
-    import PoodleHealth from './PoodleHealth'
-    import PoodleComments from './PoodleComments'
+    import PoodleRegistration from '../components/PoodleRegistration'
+    import PoodleHealth from '../components/PoodleHealth'
+    import PoodleComments from '../components/PoodleComments'
 
-    import ThreeGenPedigree from './ThreeGenPedigree'
+    import ThreeGenPedigree from '../components/ThreeGenPedigree'
 
     let config = configuration.endpoints;
 
