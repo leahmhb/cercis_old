@@ -14,8 +14,6 @@
 </template>
 
 <script>
-  //import config from './configuration'
-
   import Navbar from './components/Navbar'
 
   export default {

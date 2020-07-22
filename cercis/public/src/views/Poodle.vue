@@ -78,18 +78,18 @@
 </template>
 
 <script>
-    import configuration from '../configuration'
+    import configuration from './../configuration.js'
 
     import axios from 'axios'
 
-    import PoodleListItem from '../components/PoodleListItem'
-    import PoodleBasic from '../components/PoodleBasic'
+    import PoodleListItem from './../components/PoodleListItem.vue'
+    import PoodleBasic from './../components/PoodleBasic.vue'
 
-    import PoodleRegistration from '../components/PoodleRegistration'
-    import PoodleHealth from '../components/PoodleHealth'
-    import PoodleComments from '../components/PoodleComments'
+    import PoodleRegistration from './../components/PoodleRegistration.vue'
+    import PoodleHealth from './../components/PoodleHealth.vue'
+    import PoodleComments from './../components/PoodleComments.vue'
 
-    import ThreeGenPedigree from '../components/ThreeGenPedigree'
+    import ThreeGenPedigree from './../components/ThreeGenPedigree.vue'
 
     let config = configuration.endpoints;
 

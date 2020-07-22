@@ -95,7 +95,7 @@
 </template>
 
 <script>
-    import SingleDog from './SingleDog'
+    import SingleDog from './SingleDog.vue'
     export default {
         name: 'ThreeGenPedigree',
         props: [
