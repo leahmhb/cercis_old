@@ -9,11 +9,11 @@ uvicorn==0.11.5  # https://github.com/encode/uvicorn
 # Django
 # ------------------------------------------------------------------------------
 django==3.0.5  # pyup: < 3.1  # https://www.djangoproject.com/
-django-environ==0.4.5  # https://github.com/joke2k/django-environ
-django-model-utils==4.0.0  # https://github.com/jazzband/django-model-utils
-django-allauth==0.41.0  # https://github.com/pennersr/django-allauth
-django-crispy-forms==1.9.0  # https://github.com/django-crispy-forms/django-crispy-forms
-django-redis==4.11.0  # https://github.com/jazzband/django-redis
+django-environ>=0.4.5  # https://github.com/joke2k/django-environ
+django-model-utils>=4.0.0  # https://github.com/jazzband/django-model-utils
+django-allauth>=0.41.0  # https://github.com/pennersr/django-allauth
+django-crispy-forms>=1.9.0  # https://github.com/django-crispy-forms/django-crispy-forms
+django-redis>=4.11.0  # https://github.com/jazzband/django-redis
 
 # Django REST Framework
 # ------------------------------------------------------------------------------
@@ -25,4 +25,4 @@ djangorestframework-recursive>=0.1.2
 django-grappelli>=2.14.1
 django-cleanup>=4.0.0
 django-filter>=2.2.0
-django-extensions==2.2.9  # https://github.com/django-extensions/django-extensions
+django-extensions>=2.2.9  # https://github.com/django-extensions/django-extensions
